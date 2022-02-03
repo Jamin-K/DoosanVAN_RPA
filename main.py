@@ -3,11 +3,14 @@
 
 import os
 import datetime
-import ExcelfileType1, ExcelfileType2, ExcelfileType3
+import ExcelfileType1, ExcelfileType2, ExcelfileType3, setExcel
+
+
 
 # 오늘 날짜 추출 START
 todayDate = datetime.datetime.now().strftime('%Y%m%d')
 print('수행날짜 : %s' %todayDate)
+todayDate = '20220131'
 # 오늘 날짜 추출 END
 
 # 폴더 파일 리스트 추출 START
@@ -15,6 +18,11 @@ path = 'C:/Users/KJM/Desktop/DSVAN'+todayDate
 file_list = os.listdir(path)
 #print(file_list)
 # 폴더 파일 리스트 추출 END
+
+# 출고계획 엑셀 파일 set 함수 호출 START
+#setExcel.setStartPlanFile(path+'/'+'doosanReleasePlan'+todayDate+'.xlsx')
+setExcel.setStartPlanFile(path+'/'+'doosanReleasePlan20220118.xlsx')
+# 출고계획 엑셀 파일 set 함수 호출 END
 
 # 파일 이름에 따른 엑셀 데이터 추출 함수 호출 START
 for fileName in file_list :
