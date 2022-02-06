@@ -9,7 +9,15 @@ import numpy as np
 import openpyxl
 
 # 변수선언 START
-
+itemNumber = None; # 품번 #002
+releaseDate = None; # 납기일 #002
+rowFr = None
+rowTo = None
+fixColumn = 3
+columnFr = 4
+columnTo = 38
+fixRow = 4
+fileDirPath = 'C:/Users/KJM/Desktop/DSVAN20220131/'
 # 변수선언 END
 
 # DataFrame 기본 옵션 세팅 START

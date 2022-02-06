@@ -2,13 +2,24 @@
 # 개요 : 6000ANSAN 파일에 대한 데이터 추출 함수
 # 수정 : 2022.02.03 김재민 : checkValue 값 체크로직 삭제
 #       2022.02.03 김재민 : 발주계획 엑셀 파일 write 함수 call 부분 추가 #001
+#       2022.02.03 김재민 : 품번, 납기일 전역변수 추가 및 납기일 Split #002
+#       2022.02.04 김재민 : startWriteCell() 함수 호출을 위한 변수선언 및 함수 호출 #003
 
 import pandas as pd
 import numpy as np
 import openpyxl
+import WriteReleasePlan
 
 # 변수선언 START
-
+itemNumber = None; # 품번 #002
+releaseDate = None; # 납기일 #002
+rowFr = None
+rowTo = None
+fixColumn = 3
+columnFr = 4
+columnTo = 38
+fixRow = 4
+fileDirPath = 'C:/Users/KJM/Desktop/DSVAN20220131/' #추후 todayDate로 변경
 # 변수선언 END
 
 # DataFrame 기본 옵션 세팅 START
@@ -18,6 +29,12 @@ pd.set_option('display.max_columns', None)
 # DataFrame 기본 옵션 세팅 END
 
 def getStartData(fileName) :
+    if '6000ANSAN' in fileName :
+        rowFr = 69
+        rowTo = 133
+    else :
+        print('파일 분류 에러 : ExcelfileType2')
+
     print('START : %s' %fileName)
     print('▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼')
     excelDataFrame = pd.read_excel(fileName, usecols=[4, 9, 12]) # 품번, 납품잔량, 납기일자
@@ -99,8 +116,13 @@ def getStartData(fileName) :
                     print('품번 : %s' % excelDataFrame.iloc[i + 1, 0])
                     print('납품잔량 : %d' % excelDataFrame.iloc[i + 1, 0])
                     print('납기일자 : %s' % excelDataFrame.iloc[i + 1, 2])
+                    itemNumber = excelDataFrame.iloc[i+1, 0] #002
+                    releaseDate = excelDataFrame.iloc[i+1, 2][5:10] #002
                     if (i == len(excelDataFrame) - 2):
                         print('ExcelWrite Function Call') #001
+                        WriteReleasePlan.startWriteCell(fileDirPath + 'doosanReleasePlan20220118.xlsx', rowFr, rowTo,
+                                                        fixColumn, columnFr, columnTo,
+                                                        fixRow, itemNumber, releaseDate)  # 003
                     print('-----------------------------------------------------')
 
                 else:
@@ -117,7 +139,12 @@ def getStartData(fileName) :
                     print('품번 : %s' % excelDataFrame.iloc[i, 0])
                     print('납품잔량 : %d' % excelDataFrame.iloc[i, 1])
                     print('납기일자 : %s' % excelDataFrame.iloc[i, 2])
+                    itemNumber = excelDataFrame.iloc[i, 0]  # 002
+                    releaseDate = excelDataFrame.iloc[i, 2][5:10]  # 002
                     print('ExcelWrite Function Call') #001
+                    WriteReleasePlan.startWriteCell(fileDirPath + 'doosanReleasePlan20220118.xlsx', rowFr, rowTo,
+                                                    fixColumn, columnFr, columnTo,
+                                                    fixRow, itemNumber, releaseDate)  # 003
                     print('-----------------------------------------------------')
                     # 2 orderCount = 0 초기화
                     orderCount = 0
@@ -129,7 +156,13 @@ def getStartData(fileName) :
                         print('품번 : %s' % excelDataFrame.iloc[i + 1, 0])
                         print('납품잔량 : %d' % excelDataFrame.iloc[i + 1, 1])
                         print('납기일자 : %s' % excelDataFrame.iloc[i + 1, 2])
+                        itemNumber = excelDataFrame.iloc[i+1, 0] #002
+                        releaseDate = excelDataFrame.iloc[i+1,2][5:10] #002
                         print('ExcelWrite Function Call') #001
+                        WriteReleasePlan.startWriteCell(fileDirPath + 'doosanReleasePlan20220118.xlsx', rowFr, rowTo,
+                                                        fixColumn, columnFr, columnTo,
+                                                        fixRow, itemNumber, releaseDate)  # 003
+
                         orderCount = 0
 
             else:
@@ -146,7 +179,13 @@ def getStartData(fileName) :
                 print('품번 : %s' % excelDataFrame.iloc[i, 0])
                 print('납품잔량 : %d' % excelDataFrame.iloc[i, 1])
                 print('납기일자 : %s' % excelDataFrame.iloc[i, 2])
-                print('ExcelWrite Function Call') #001
+                itemNumber = excelDataFrame.iloc[i, 0]  # 002
+                releaseDate = excelDataFrame.iloc[i, 2][5:10]  # 002
+                print('ExcelWrite Function Call')  # 001
+                WriteReleasePlan.startWriteCell(fileDirPath + 'doosanReleasePlan20220118.xlsx', rowFr, rowTo,
+                                                fixColumn, columnFr, columnTo,
+                                                fixRow, itemNumber, releaseDate)  # 003
+
                 print('-----------------------------------------------------')
                 # 2 orderCount = 0 초기화
                 orderCount = 0
@@ -158,7 +197,13 @@ def getStartData(fileName) :
                     print('품번 : %s' % excelDataFrame.iloc[i + 1, 0])
                     print('납품잔량 : %d' % excelDataFrame.iloc[i + 1, 1])
                     print('납기일자 : %s' % excelDataFrame.iloc[i + 1, 2])
-                    print('ExcelWrite Function Call') #001
+                    itemNumber = excelDataFrame.iloc[i + 1, 0]  # 002
+                    releaseDate = excelDataFrame.iloc[i + 1, 2][5:10]  # 002
+                    print('ExcelWrite Function Call')  # 001
+                    WriteReleasePlan.startWriteCell(fileDirPath + 'doosanReleasePlan20220118.xlsx', rowFr, rowTo,
+                                                    fixColumn, columnFr, columnTo,
+                                                    fixRow, itemNumber, releaseDate)  # 003
+
                     print('-----------------------------------------------------')
                     orderCount = 0
     # 데이터가 3개 이상일 때 실행되는 로직 END
