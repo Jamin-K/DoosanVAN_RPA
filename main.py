@@ -26,7 +26,7 @@ setExcel.setStartPlanFile(path+'/'+'doosanReleasePlan20220118.xlsx')
 
 # 파일 이름에 따른 엑셀 데이터 추출 함수 호출 START
 for fileName in file_list :
-    if '1000INCHEONDir'+todayDate in fileName :
+    if '1000DIrINCHEON'+todayDate in fileName :
         ExcelfileType1.getStartData(path+'/'+fileName)
     elif '1000INCHEON'+todayDate in fileName :
         ExcelfileType1.getStartData(path+'/'+fileName)
