@@ -22,8 +22,10 @@ fixColumn = 3
 columnFr = 6
 columnTo = 40
 fixRow = 4
-#fileDirPath = 'C:/Users/KJM/Desktop/DSVAN20220131/' #TestCode
-fileDirPath = 'C:/Users/KJM/Desktop/DSVAN'+todayDate+'/'
+#fileDirPath = 'C:/Users/KJM/Desktop/DSVAN'+todayDate+'/'
+#releaseFileName = filrDirPath + 'doosanReleasePlan' + todayDate + '.xlsx'
+fileDirPath = 'C:/Users/KJM/Desktop/DSVAN20220214/' #TestCode
+releaseFileName = fileDirPath + 'doosanReleasePlan20220214.xlsx' #TestCode
 # 변수선언 END
 
 # DataFrame 기본 옵션 세팅 START
@@ -91,12 +93,9 @@ def getStartData(fileName) :
         itemNumber = excelDataFrame.iloc[0, 2]
         releaseDate = excelDataFrame.iloc[0, 4][5:10]
         print('ExcelWrite Function Call')
-        # WriteReleasePlan.startWriteCell(fileDirPath + 'doosanReleasePlan20220118.xlsx', rowFr, rowTo,
-        #                                 fixColumn, columnFr, columnTo,
-        #                                 fixRow, itemNumber, releaseDate)  # 003 TestCode
-        WriteReleasePlan.startWriteCell(fileDirPath + 'doosanReleasePlan'+todayDate+'.xlsx', rowFr, rowTo,
+        WriteReleasePlan.startWriteCell(releaseFileName, rowFr, rowTo,
                                         fixColumn, columnFr, columnTo,
-                                        fixRow, itemNumber, releaseDate)  # 003
+                                        fixRow, itemNumber, releaseDate, orderCount)  # 003
     # 데이터가 1개 있을 때 실행되는 로직 END
 
     # 데이터가 2개 있을 때 실행되는 로직 START
@@ -113,12 +112,9 @@ def getStartData(fileName) :
                 itemNumber = excelDataFrame.iloc[0, 2]
                 releaseDate = excelDataFrame.iloc[0, 4][5:10]
                 print('ExcelWrite Function Call')
-                # WriteReleasePlan.startWriteCell(fileDirPath + 'doosanReleasePlan20220118.xlsx', rowFr, rowTo,
-                #                                 fixColumn, columnFr, columnTo,
-                #                                 fixRow, itemNumber, releaseDate)  # 003
-                WriteReleasePlan.startWriteCell(fileDirPath + 'doosanReleasePlan' + todayDate + '.xlsx', rowFr, rowTo,
+                WriteReleasePlan.startWriteCell(releaseFileName, rowFr, rowTo,
                                                 fixColumn, columnFr, columnTo,
-                                                fixRow, itemNumber, releaseDate)  # 003
+                                                fixRow, itemNumber, releaseDate, orderCount)  # 003
                 print('-----------------------------------------------------')
             else:
                 # 동일품번, 다른납기
@@ -131,12 +127,9 @@ def getStartData(fileName) :
                 itemNumber = excelDataFrame.iloc[0, 2]
                 releaseDate = excelDataFrame.iloc[0, 4][5:10]
                 print('ExcelWrite Function Call')
-                # WriteReleasePlan.startWriteCell(fileDirPath + 'doosanReleasePlan20220118.xlsx', rowFr, rowTo,
-                #                                 fixColumn, columnFr, columnTo,
-                #                                 fixRow, itemNumber, releaseDate)  # 003
-                WriteReleasePlan.startWriteCell(fileDirPath + 'doosanReleasePlan' + todayDate + '.xlsx', rowFr, rowTo,
+                WriteReleasePlan.startWriteCell(releaseFileName, rowFr, rowTo,
                                                 fixColumn, columnFr, columnTo,
-                                                fixRow, itemNumber, releaseDate)  # 003
+                                                fixRow, itemNumber, releaseDate, orderCount)  # 003
                 print('-----------------------------------------------------')
                 orderCount = excelDataFrame.iloc[1, 3]
                 print('납품수량 합계 : %d' % orderCount)
@@ -147,14 +140,9 @@ def getStartData(fileName) :
                 itemNumber = excelDataFrame.iloc[1, 2]
                 releaseDate = excelDataFrame.iloc[1, 4][5:10]
                 print('ExcelWrite Function Call')
-                # WriteReleasePlan.startWriteCell(fileDirPath + 'doosanReleasePlan20220118.xlsx', rowFr, rowTo,
-                #                                 fixColumn, columnFr, columnTo,
-                #                                 fixRow, itemNumber, releaseDate)  # 003
-                WriteReleasePlan.startWriteCell(fileDirPath + 'doosanReleasePlan' + todayDate + '.xlsx', rowFr, rowTo,
+                WriteReleasePlan.startWriteCell(releaseFileName, rowFr, rowTo,
                                                 fixColumn, columnFr, columnTo,
-                                                fixRow, itemNumber, releaseDate)  # 003
-
-
+                                                fixRow, itemNumber, releaseDate, orderCount)  # 003
         else:
             # 다른품번
             orderCount = excelDataFrame.iloc[0, 3]
@@ -166,12 +154,9 @@ def getStartData(fileName) :
             itemNumber = excelDataFrame.iloc[0, 2]
             releaseDate = excelDataFrame.iloc[0, 4][5:10]
             print('ExcelWrite Function Call')
-            # WriteReleasePlan.startWriteCell(fileDirPath + 'doosanReleasePlan20220118.xlsx', rowFr, rowTo,
-            #                                 fixColumn, columnFr, columnTo,
-            #                                 fixRow, itemNumber, releaseDate)  # 003
-            WriteReleasePlan.startWriteCell(fileDirPath + 'doosanReleasePlan' + todayDate + '.xlsx', rowFr, rowTo,
+            WriteReleasePlan.startWriteCell(releaseFileName, rowFr, rowTo,
                                             fixColumn, columnFr, columnTo,
-                                            fixRow, itemNumber, releaseDate)  # 003
+                                            fixRow, itemNumber, releaseDate, orderCount)  # 003
             print('-----------------------------------------------------')
             orderCount = excelDataFrame.iloc[1, 3]
             print('납품수량 합계 : %d' % orderCount)
@@ -182,12 +167,9 @@ def getStartData(fileName) :
             itemNumber = excelDataFrame.iloc[1, 2]
             releaseDate = excelDataFrame.iloc[1, 4][5:10]
             print('ExcelWrite Function Call')
-            # WriteReleasePlan.startWriteCell(fileDirPath + 'doosanReleasePlan20220118.xlsx', rowFr, rowTo,
-            #                                 fixColumn, columnFr, columnTo,
-            #                                 fixRow, itemNumber, releaseDate)  # 003
-            WriteReleasePlan.startWriteCell(fileDirPath + 'doosanReleasePlan' + todayDate + '.xlsx', rowFr, rowTo,
+            WriteReleasePlan.startWriteCell(releaseFileName, rowFr, rowTo,
                                             fixColumn, columnFr, columnTo,
-                                            fixRow, itemNumber, releaseDate)  # 003
+                                            fixRow, itemNumber, releaseDate, orderCount)  # 003
     # 데이터가 2개 있을 때 실행되는 로직 END
 
     # 데이터가 3개 이상 있을 때 실행되는 로직 start
@@ -218,13 +200,9 @@ def getStartData(fileName) :
                     releaseDate = excelDataFrame.iloc[i+1, 4][5:10] #002
                     if (i == len(excelDataFrame) - 2):
                         print('ExcelWrite Function Call') #001
-                        # WriteReleasePlan.startWriteCell(fileDirPath + 'doosanReleasePlan20220118.xlsx', rowFr, rowTo,
-                        #                                 fixColumn, columnFr, columnTo,
-                        #                                 fixRow, itemNumber, releaseDate)  # 003
-                        WriteReleasePlan.startWriteCell(fileDirPath + 'doosanReleasePlan' + todayDate + '.xlsx', rowFr,
-                                                        rowTo,
+                        WriteReleasePlan.startWriteCell(releaseFileName, rowFr, rowTo,
                                                         fixColumn, columnFr, columnTo,
-                                                        fixRow, itemNumber, releaseDate)  # 003
+                                                        fixRow, itemNumber, releaseDate, orderCount)  # 003
 
                     print('-----------------------------------------------------')
 
@@ -247,13 +225,9 @@ def getStartData(fileName) :
                     releaseDate = excelDataFrame.iloc[i, 4][5:10]  # 002
                     #if (i == len(excelDataFrame) - 2):
                     print('ExcelWrite Function Call')  # 001
-                    # WriteReleasePlan.startWriteCell(fileDirPath + 'doosanReleasePlan20220118.xlsx', rowFr, rowTo,
-                    #                                 fixColumn, columnFr, columnTo,
-                    #                                 fixRow, itemNumber, releaseDate)  # 003
-                    WriteReleasePlan.startWriteCell(fileDirPath + 'doosanReleasePlan' + todayDate + '.xlsx', rowFr,
-                                                    rowTo,
+                    WriteReleasePlan.startWriteCell(releaseFileName, rowFr, rowTo,
                                                     fixColumn, columnFr, columnTo,
-                                                    fixRow, itemNumber, releaseDate)  # 003
+                                                    fixRow, itemNumber, releaseDate, orderCount)  # 003
 
                     print('-----------------------------------------------------')
                     # 2 orderCount = 0 초기화
@@ -271,13 +245,9 @@ def getStartData(fileName) :
                         releaseDate = excelDataFrame.iloc[i + 1, 4][5:10]  # 002
                         #if (i == len(excelDataFrame) - 2):
                         print('ExcelWrite Function Call')  # 001
-                        # WriteReleasePlan.startWriteCell(fileDirPath + 'doosanReleasePlan20220118.xlsx', rowFr, rowTo,
-                        #                                 fixColumn, columnFr, columnTo,
-                        #                                 fixRow, itemNumber, releaseDate)  # 003
-                        WriteReleasePlan.startWriteCell(fileDirPath + 'doosanReleasePlan' + todayDate + '.xlsx', rowFr,
-                                                        rowTo,
+                        WriteReleasePlan.startWriteCell(releaseFileName, rowFr, rowTo,
                                                         fixColumn, columnFr, columnTo,
-                                                        fixRow, itemNumber, releaseDate)  # 003
+                                                        fixRow, itemNumber, releaseDate, orderCount)  # 003
 
                         print('-----------------------------------------------------')
                         orderCount = 0
@@ -300,13 +270,9 @@ def getStartData(fileName) :
                 itemNumber = excelDataFrame.iloc[i, 2]  # 002
                 releaseDate = excelDataFrame.iloc[i, 4][5:10]  # 002
                 print('ExcelWrite Function Call')  # 001
-                # WriteReleasePlan.startWriteCell(fileDirPath + 'doosanReleasePlan20220118.xlsx', rowFr, rowTo,
-                #                                 fixColumn, columnFr, columnTo,
-                #                                 fixRow, itemNumber, releaseDate)  # 003
-                WriteReleasePlan.startWriteCell(fileDirPath + 'doosanReleasePlan' + todayDate + '.xlsx', rowFr,
-                                                rowTo,
+                WriteReleasePlan.startWriteCell(releaseFileName, rowFr, rowTo,
                                                 fixColumn, columnFr, columnTo,
-                                                fixRow, itemNumber, releaseDate)  # 003
+                                                fixRow, itemNumber, releaseDate,orderCount)  # 003
 
                 print('-----------------------------------------------------')
                 # 2 orderCount = 0 초기화
@@ -324,13 +290,9 @@ def getStartData(fileName) :
                     releaseDate = excelDataFrame.iloc[i + 1, 4][5:10]  # 002
                     #if (i == len(excelDataFrame) - 2):
                     print('ExcelWrite Function Call')  # 001
-                    # WriteReleasePlan.startWriteCell(fileDirPath + 'doosanReleasePlan20220118.xlsx', rowFr, rowTo,
-                    #                                 fixColumn, columnFr, columnTo,
-                    #                                 fixRow, itemNumber, releaseDate)  # 003
-                    WriteReleasePlan.startWriteCell(fileDirPath + 'doosanReleasePlan' + todayDate + '.xlsx', rowFr,
-                                                    rowTo,
+                    WriteReleasePlan.startWriteCell(releaseFileName, rowFr, rowTo,
                                                     fixColumn, columnFr, columnTo,
-                                                    fixRow, itemNumber, releaseDate)  # 003
+                                                    fixRow, itemNumber, releaseDate, orderCount)  # 003
 
                     print('-----------------------------------------------------')
                     orderCount = 0

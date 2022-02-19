@@ -2,7 +2,6 @@
 # 개요 : doosanReleasePlan 엑셀 파일 초기 세팅
 
 from openpyxl import load_workbook
-import pandas as pd
 from datetime import datetime, timedelta
 
 def setStartPlanFile(planFilePath) :

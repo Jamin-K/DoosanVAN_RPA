@@ -1,17 +1,39 @@
 # 신규생성 : 2022.01.31 김재민
 # 개요 : 두산 VAN 데이터 추출 파이썬 스크립트
 
+# 개발 메모
+# 1000INCHEON 직송 -> 한양정밀
+# 1000INCHEON 일반 -> 인천
+# 1100CKD         -> CKD
+# 1130INCHOEN     -> 인천
+# 6000ANSAN       -> ?
+# 1000JISINCHEON  -> 인천
+# 1111JISGUNSAN   -> 군산
+# 값을 못 찾아서 Excel Write 실패 시 실패 데이터를 특정 Excel 파일에 모아놓아야함.
+# Excel Write하는 로직 작성 필요
+# 공휴일 체크 로직 필요(공휴일 API 사용 or 직접 휴무일을 excel에 추가하여 순차적으로 비교)
+
+
 import os
 import datetime
 import ExcelfileType1, ExcelfileType2, ExcelfileType3, setExcel
 import time
+import setHolidays
 
+todayDate = datetime.datetime.now().strftime('%Y%m%d')
 
+# 공휴일 및 국경일 Excel Write START
+# 01월 01일에 실행
+if(todayDate[4:9] == '0101') :
+    setHolidays.startSetHoliday(todayDate[0:4])
+    setHolidays.startSetHoliday(str(int(todayDate[0:4])+1))
+# 공휴일 및 국경일 Excel Write END
 
 # 오늘 날짜 추출 START
 todayDate = datetime.datetime.now().strftime('%Y%m%d')
 print('수행날짜 : %s' %todayDate)
-#todayDate = '20220131' #TestCode
+print(datetime.datetime.now().weekday())
+todayDate = '20220214' #TestCode
 # 오늘 날짜 추출 END
 
 # 폴더 파일 리스트 추출 START
