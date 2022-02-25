@@ -8,13 +8,20 @@ from openpyxl import load_workbook
 import findValueLocation
 from findValueLocation import Coordinate
 import pandas as pd
+import CheckWorkDays
+
 
 def startWriteCell(filePath, rowFr, rowTo, fixColumn, columnFr, columnTo, fixRow, findValue1, findValue2, orderCount) :
     wb = load_workbook(filePath)
     ws = wb.active
     cordinate = Coordinate() #001
     itemNumber = findValue1
-    releaseDate = findValue2
+
+    # 공휴일 및 주말 체크 함수 START
+    findValue2 = CheckWorkDays.checkHolidays(findValue2)
+    # 공휴일 및 주말 체크 함수 END
+
+    releaseDate = findValue2 #yyyy/mm/dd 형태로 받아옴
 
     cordinate.startFindValue(filePath, rowFr, rowTo, fixColumn, columnFr, columnTo, fixRow, itemNumber, releaseDate, ws) #001
     if(cordinate.getRow() != 0 and cordinate.getCol() != 0) : #001
@@ -23,7 +30,7 @@ def startWriteCell(filePath, rowFr, rowTo, fixColumn, columnFr, columnTo, fixRow
         ws.cell(cordinate.getRow(), cordinate.getCol(), orderCount) #002
 
 
-    #wb.save(filePath) #002
+    wb.save(filePath) #002
     wb.close()
 
 

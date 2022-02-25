@@ -67,7 +67,8 @@ def getStartData(fileName) :
         print('납기일자 : %s' % excelDataFrame.iloc[0, 2])
         print('ExcelWrite Function Call')
         itemNumber = excelDataFrame.iloc[0, 0]
-        releaseDate = excelDataFrame.iloc[0, 2][5:10]
+        releaseDate = excelDataFrame.iloc[0, 2]
+        #releaseDate = excelDataFrame.iloc[0, 2][5:10]
         WriteReleasePlan.startWriteCell(releaseFileName, rowFr,
                                         rowTo,
                                         fixColumn, columnFr, columnTo,
@@ -86,7 +87,8 @@ def getStartData(fileName) :
                 print('납기일자 : %s' % excelDataFrame.iloc[0, 2])
                 print('ExcelWrite Function Call')
                 itemNumber = excelDataFrame.iloc[0, 0]
-                releaseDate = excelDataFrame.iloc[0, 2][5:10]
+                releaseDate = excelDataFrame.iloc[0, 2]
+                #releaseDate = excelDataFrame.iloc[0, 2][5:10]
                 WriteReleasePlan.startWriteCell(releaseFileName, rowFr,
                                                 rowTo,
                                                 fixColumn, columnFr, columnTo,
@@ -100,7 +102,8 @@ def getStartData(fileName) :
                 print('납기일자 : %s' % excelDataFrame.iloc[0, 2])
                 print('ExcelWrite Function Call')
                 itemNumber = excelDataFrame.iloc[0, 0]
-                releaseDate = excelDataFrame.iloc[0, 2][5:10]
+                releaseDate = excelDataFrame.iloc[0, 2]
+                #releaseDate = excelDataFrame.iloc[0, 2][5:10]
                 WriteReleasePlan.startWriteCell(releaseFileName, rowFr,
                                                 rowTo,
                                                 fixColumn, columnFr, columnTo,
@@ -111,7 +114,8 @@ def getStartData(fileName) :
                 print('품번 : %s' % excelDataFrame.iloc[1, 0])
                 print('납기일자 : %s' % excelDataFrame.iloc[1, 2])
                 itemNumber = excelDataFrame.iloc[1, 0]
-                releaseDate = excelDataFrame.iloc[1, 2][5:10]
+                releaseDate = excelDataFrame.iloc[1, 2]
+                #releaseDate = excelDataFrame.iloc[1, 2][5:10]
                 WriteReleasePlan.startWriteCell(releaseFileName, rowFr,
                                                 rowTo,
                                                 fixColumn, columnFr, columnTo,
@@ -125,7 +129,8 @@ def getStartData(fileName) :
             print('납기일자 : %s' % excelDataFrame.iloc[0, 2])
             print('ExcelWrite Function Call')
             itemNumber = excelDataFrame.iloc[0, 0]
-            releaseDate = excelDataFrame.iloc[0, 2][5:10]
+            releaseDate = excelDataFrame.iloc[0, 2]
+            # releaseDate = excelDataFrame.iloc[0, 2][5:10]
             WriteReleasePlan.startWriteCell(releaseFileName, rowFr,
                                             rowTo,
                                             fixColumn, columnFr, columnTo,
@@ -137,7 +142,8 @@ def getStartData(fileName) :
             print('납기일자 : %s' % excelDataFrame.iloc[1, 2])
             print('ExcelWrite Function Call')
             itemNumber = excelDataFrame.iloc[1, 0]
-            releaseDate = excelDataFrame.iloc[1, 2][5:10]
+            releaseDate = excelDataFrame.iloc[1, 2]
+            #releaseDate = excelDataFrame.iloc[1, 2][5:10]
             WriteReleasePlan.startWriteCell(releaseFileName, rowFr,
                                             rowTo,
                                             fixColumn, columnFr, columnTo,
@@ -167,7 +173,8 @@ def getStartData(fileName) :
                     print('납품잔량 : %d' % excelDataFrame.iloc[i + 1, 0])
                     print('납기일자 : %s' % excelDataFrame.iloc[i + 1, 2])
                     itemNumber = excelDataFrame.iloc[i+1, 0] #002
-                    releaseDate = excelDataFrame.iloc[i+1, 2][5:10] #002
+                    releaseDate = excelDataFrame.iloc[i+1, 2] #002
+                    #releaseDate = excelDataFrame.iloc[i + 1, 2][5:10]  # 002
                     if (i == len(excelDataFrame) - 2):
                         print('ExcelWrite Function Call') #001
                         WriteReleasePlan.startWriteCell(releaseFileName, rowFr,
@@ -186,7 +193,8 @@ def getStartData(fileName) :
                     print('납품잔량 : %d' % excelDataFrame.iloc[i, 1])
                     print('납기일자 : %s' % excelDataFrame.iloc[i, 2])
                     itemNumber = excelDataFrame.iloc[i, 0]  # 002
-                    releaseDate = excelDataFrame.iloc[i, 2][5:10]  # 002
+                    releaseDate = excelDataFrame.iloc[i, 2]  # 002
+                    # releaseDate = excelDataFrame.iloc[i, 2][5:10]  # 002
                     print('ExcelWrite Function Call') #001
                     WriteReleasePlan.startWriteCell(releaseFileName, rowFr,
                                                     rowTo,
@@ -204,7 +212,8 @@ def getStartData(fileName) :
                         print('납품잔량 : %d' % excelDataFrame.iloc[i + 1, 1])
                         print('납기일자 : %s' % excelDataFrame.iloc[i + 1, 2])
                         itemNumber = excelDataFrame.iloc[i+1, 0] #002
-                        releaseDate = excelDataFrame.iloc[i+1,2][5:10] #002
+                        releaseDate = excelDataFrame.iloc[i + 1, 2]  # 002
+                        # releaseDate = excelDataFrame.iloc[i + 1, 2][5:10]  # 002
                         print('ExcelWrite Function Call') #001
                         WriteReleasePlan.startWriteCell(releaseFileName, rowFr,
                                                         rowTo,
@@ -223,7 +232,8 @@ def getStartData(fileName) :
                 print('납품잔량 : %d' % excelDataFrame.iloc[i, 1])
                 print('납기일자 : %s' % excelDataFrame.iloc[i, 2])
                 itemNumber = excelDataFrame.iloc[i, 0]  # 002
-                releaseDate = excelDataFrame.iloc[i, 2][5:10]  # 002
+                releaseDate = excelDataFrame.iloc[i, 2]  # 002
+                # releaseDate = excelDataFrame.iloc[i, 2][5:10]  # 002
                 print('ExcelWrite Function Call')  # 001
                 WriteReleasePlan.startWriteCell(releaseFileName, rowFr,
                                                 rowTo,
@@ -242,7 +252,8 @@ def getStartData(fileName) :
                     print('납품잔량 : %d' % excelDataFrame.iloc[i + 1, 1])
                     print('납기일자 : %s' % excelDataFrame.iloc[i + 1, 2])
                     itemNumber = excelDataFrame.iloc[i + 1, 0]  # 002
-                    releaseDate = excelDataFrame.iloc[i + 1, 2][5:10]  # 002
+                    releaseDate = excelDataFrame.iloc[i + 1, 2]  # 002
+                    # releaseDate = excelDataFrame.iloc[i + 1, 2][5:10]  # 002
                     print('ExcelWrite Function Call')  # 001
                     WriteReleasePlan.startWriteCell(releaseFileName, rowFr,
                                                     rowTo,

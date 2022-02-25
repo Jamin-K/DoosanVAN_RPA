@@ -3,12 +3,15 @@
 # 수정 : 2022.02.14 김재민 : 엑셀시트에 해당 품명이 존재 여부를 체크하는 로직 추가 #001
 #       2022.02.14 김재민 : 좌표 클래스 생성 #002
 #       2022.02.19 김재민 : startFindValue 함수 인자 self 추가 #003
+#       2022.02.19 김재민 : yyyy/mm/dd 날짜를 저장하기 위한 변수 선언(공휴일 체크에 사용) 추가 #004
 
 from openpyxl import load_workbook
 
 # 변수선언 START
 checkFindValue = False #001
 checkFindValueItem = False #001
+fullDate = None #004
+
 # 변수선언 END
 
 class Coordinate : #002
@@ -34,6 +37,10 @@ class Coordinate : #002
         # ws를 한번 더 호출하지 않고 함수 인자에 담아 들고오기 때문에 엑셀을 한번 더 열 필요가 없어져 수행시간 빨라짐
         #wb = load_workbook(filePath)
         #ws = wb.active
+
+        # findvalue2는 날짜, yyyy/mm/dd 형태로 받아옴, mm/dd 형태로 가공
+        fullDate = findValue2 #004
+        findValue2 = findValue2[5:10]
 
         global checkFindValue
         global checkFindValueItem
