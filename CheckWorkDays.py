@@ -2,7 +2,7 @@
 # 개요 : input으로 날짜를 받아와서 그 날짜가 공휴일에도 속하지 않고, 주말에도 속하지 않으면 해당 날짜를 그대로 반환.
 #       그 날짜가 둘 중 하나라도 속하면 날짜를 바꿔 바꾼 날짜를 반환
 #       이 함수에서 납기일-1 로직도 수행
-# 수정 :
+# # 수정 : 2022.02.27 김재민 : 특근일 체크 로직 추가 #001
 import datetime
 
 import pandas as pd
@@ -15,7 +15,7 @@ def checkHolidays(fullDate):     #fullDate는 yyyy/mm/dd형태
     # 변수선언 START
     holidayList = []
     workdayList = []
-    workdayFlag = False
+    exitFlag = False
     filePath = 'C:/Users/KJM/Desktop/DSVAN20220214/' # 추후 holiday.xlsx 를 DSVAN20220214 상위폴더로 이동
     fileNameHoliday = 'holiday.xlsx'
     fileNameWorkday = 'workday.xlsx'
@@ -54,73 +54,63 @@ def checkHolidays(fullDate):     #fullDate는 yyyy/mm/dd형태
         workdayList.append(tempdt)
     # 특근일자 리스트 만들기 END
 
-    print('input : %s' %fulldt)
-    print(holidayList)
-    print(workdayList)
-
-    holidayList.reverse() # 뒤에서부터 탐색
+    holidayList.reverse() # 내림차순 sort를 위해 holidaylist reverse
 
     # 특근일자 검색 START
-    for item in workdayList:
-        if(item == fulldt) :
-            print('해당날짜는 특근일입니다. 공휴일 및 주말 check skip!!')
-            workdayFlag = True
-        else :
-            continue
-    # 특근일자 검색 END
+    if(checkWorkDay(workdayList, fulldt) == True) : #001
+        exitFlag = True
+        print('해당날짜는 특근일입니다. 공휴일 및 주말 check skip!!')
 
-    if(workdayFlag == False) :
+    if(exitFlag == False) :
         # 공휴일 여부 탐색 FIRST START
         for item in holidayList:
             if (item == fulldt):
                 print('해당날짜(%s)는 공휴일입니다. -1day 실시!!' %fulldt)
-                fulldt = fulldt + datetime.timedelta(days=-1)
+                fulldt = fulldt + datetime.timedelta(days=-1) #초기 fulldt에 대한 탐색은 위에서 끝냈기 때문에 -1day부터 다시 특근일 탐색
+                if(checkWorkDay(workdayList, fulldt) == True) : #001
+                    print('해당날짜(%s)는 특근일입니다. 체크로직 종료' % fulldt)
+                    exitFlag = True
+                    break
+
         # 공휴일 여부 탐색 FIRST END
 
         # 주말 여부 탐색(납기일이 토,일,월이면 전주 금요일에 납기) START
-        while (True):
+        while(exitFlag == False) :
             if (fulldt.weekday() == 5 or fulldt.weekday() == 6 or fulldt.weekday() == 0):
                 print('해당날짜(%s)는 토 or 일 or 월요일입니다. -1day 실시!!' %fulldt)
                 fulldt = fulldt + datetime.timedelta(days=-1)
+                if(checkWorkDay(workdayList, fulldt) == True) : #001
+                    exitFlag = True
+                    print('해당날짜(%s)는 특근일입니다. 체크로직 종료' % fulldt)
+                    break
                 continue
             break
         # 주말 여부 탐색(납기일이 토,일,월이면 전주 금요일에 납기) START
 
         # 공휴일 여부 탐색 SECOND START
-        for item in holidayList:
-            if (item == fulldt):
-                print('해당날짜(%s)는 공휴일입니다. -1day 실시!!' %fulldt)
-                fulldt = fulldt + datetime.timedelta(days=-1)
+        if(exitFlag == False) :
+            for item in holidayList:
+                if (item == fulldt):
+                    print('해당날짜(%s)는 공휴일입니다. -1day 실시!!' % fulldt)
+                    fulldt = fulldt + datetime.timedelta(days=-1)
+                    if (checkWorkDay(workdayList, fulldt) == True):  # 001
+                        exitFlag = True
+                        print('해당날짜(%s)는 특근일입니다. 체크로직 종료' % fulldt)
+
+                        break
+
         # 공휴일 여부 탐색 SECOND END
-
-
-    # # 공휴일 여부 탐색 FIRST START
-    # for item in holidayList:
-    #     if (item == fulldt):
-    #         print('해당날짜(%s)는 공휴일입니다. -1day 실시!!' % fulldt)
-    #         fulldt = fulldt + datetime.timedelta(days=-1)
-    # # 공휴일 여부 탐색 FIRST END
-    #
-    # # 주말 여부 탐색(납기일이 토,일,월이면 전주 금요일에 납기) START
-    # while (True):
-    #     if (fulldt.weekday() == 5 or fulldt.weekday() == 6 or fulldt.weekday() == 0):
-    #         print('해당날짜(%s)는 토 or 일 or 월요일입니다. -1day 실시!!' % fulldt)
-    #         fulldt = fulldt + datetime.timedelta(days=-1)
-    #         continue
-    #     break
-    # # 주말 여부 탐색(납기일이 토,일,월이면 전주 금요일에 납기) START
-    #
-    # # 공휴일 여부 탐색 SECOND START
-    # for item in holidayList:
-    #     if (item == fulldt):
-    #         print('해당날짜(%s)는 공휴일입니다. -1day 실시!!' % fulldt)
-    #         fulldt = fulldt + datetime.timedelta(days=-1)
-    # # 공휴일 여부 탐색 SECOND END
-
 
     return fulldt.strftime('%Y/%m/%d')
 
     # 공휴일 or 국경일 여부 탐색 END
+
+def checkWorkDay(workdayList, date): #001
+    for item in workdayList :
+        if(item == date):
+            return True
+
+
 
 
 
