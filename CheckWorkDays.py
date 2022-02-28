@@ -19,7 +19,6 @@ def checkHolidays(fullDate):     #fullDate는 yyyy/mm/dd형태
     filePath = 'C:/Users/KJM/Desktop/DSVAN20220214/' # 추후 holiday.xlsx 를 DSVAN20220214 상위폴더로 이동
     fileNameHoliday = 'holiday.xlsx'
     fileNameWorkday = 'workday.xlsx'
-
     # 변수선언 END
 
     # 납기일보다 -1day 로직 수행 START -> 납기일보다 하루 빠르게 출발 시켜야함

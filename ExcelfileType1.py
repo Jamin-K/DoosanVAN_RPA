@@ -56,7 +56,10 @@ def getStartData(fileName) :
 
     print('START : %s' %fileName)
     print('▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼')
-    excelDataFrame = pd.read_excel(fileName, usecols=[10, 16, 19, 31, 38]) #JIS, 발주번호, 품번, 납품잔량, 납기일자 필드 추출
+    excelDataFrame = pd.read_excel(fileName, usecols=[10, 16, 17, 19, 31, 38],
+                                   dtype={'발주번호':str,
+                                          '발주항번':str})
+    # JIS, 발주번호, 품번, 납품잔량, 납기일자, 발주항번 필드 추출
 
     # JIS 값이 Y인 컬럼 DROP ROW START
     for index, row in excelDataFrame.iterrows() :
@@ -66,6 +69,8 @@ def getStartData(fileName) :
 
     # 발주번호 필드 str로 형변환 START
     excelDataFrame['발주번호'] = excelDataFrame['발주번호'].astype(str)
+    excelDataFrame['발주항번'] = excelDataFrame['발주항번'].astype(str)
+
     # 발주번호 필드 str로 형변환 END
 
     # dataframe index 재선언 START
@@ -84,14 +89,15 @@ def getStartData(fileName) :
     print('-----------------------------------------------------')
     # 데이터가 1개 있을 때 실행되는 로직 START
     if (len(excelDataFrame) == 1):
-        orderCount = excelDataFrame.iloc[0, 3]
+        orderCount = excelDataFrame.iloc[0, 4]
         print('납품수량 합계 : %d' % orderCount)
         print('발주번호 : %s' % excelDataFrame.iloc[0, 1])
-        print('품번 : %s' % excelDataFrame.iloc[0, 2])
-        print('납기일 : %s' % excelDataFrame.iloc[0, 4])
-        print('납품잔량 : %d' % excelDataFrame.iloc[0, 3])
-        itemNumber = excelDataFrame.iloc[0, 2]
-        releaseDate = excelDataFrame.iloc[0, 4]
+        print('발주항번 : %s' % excelDataFrame.iloc[0, 2])
+        print('품번 : %s' % excelDataFrame.iloc[0, 3])
+        print('납기일 : %s' % excelDataFrame.iloc[0, 5])
+        print('납품잔량 : %d' % excelDataFrame.iloc[0, 4])
+        itemNumber = excelDataFrame.iloc[0, 3]
+        releaseDate = excelDataFrame.iloc[0, 5]
         #releaseDate = excelDataFrame.iloc[0, 4][5:10]
         print('ExcelWrite Function Call')
         WriteReleasePlan.startWriteCell(releaseFileName, rowFr, rowTo,
@@ -104,14 +110,15 @@ def getStartData(fileName) :
         if (excelDataFrame.iloc[0, 2] == excelDataFrame.iloc[1, 2]):
             if (excelDataFrame.iloc[0, 4] == excelDataFrame.iloc[1, 4]):
                 # 동일품번, 동일납기
-                orderCount = excelDataFrame.iloc[0, 3] + excelDataFrame.iloc[1, 3]
+                orderCount = excelDataFrame.iloc[0, 4] + excelDataFrame.iloc[1, 4]
                 print('납품수량 합계 : %d' % orderCount)
                 print('발주번호 : %s' % excelDataFrame.iloc[0, 1])
-                print('품번 : %s' % excelDataFrame.iloc[0, 2])
-                print('납기일 : %s' % excelDataFrame.iloc[0, 4])
-                print('납품잔량 : %d' % excelDataFrame.iloc[0, 3])
-                itemNumber = excelDataFrame.iloc[0, 2]
-                releaseDate = excelDataFrame.iloc[0, 4]
+                print('발주항번 : %s' % excelDataFrame.iloc[0, 2])
+                print('품번 : %s' % excelDataFrame.iloc[0, 3])
+                print('납기일 : %s' % excelDataFrame.iloc[0, 5])
+                print('납품잔량 : %d' % excelDataFrame.iloc[0, 4])
+                itemNumber = excelDataFrame.iloc[0, 3]
+                releaseDate = excelDataFrame.iloc[0, 5]
                 # releaseDate = excelDataFrame.iloc[0, 4][5:10]
                 print('ExcelWrite Function Call')
                 WriteReleasePlan.startWriteCell(releaseFileName, rowFr, rowTo,
@@ -120,28 +127,30 @@ def getStartData(fileName) :
                 print('-----------------------------------------------------')
             else:
                 # 동일품번, 다른납기
-                orderCount = excelDataFrame.iloc[0, 3]
+                orderCount = excelDataFrame.iloc[0, 4]
                 print('납품수량 합계 : %d' % orderCount)
                 print('발주번호 : %s' % excelDataFrame.iloc[0, 1])
-                print('품번 : %s' % excelDataFrame.iloc[0, 2])
-                print('납기일 : %s' % excelDataFrame.iloc[0, 4])
-                print('납품잔량 : %d' % excelDataFrame.iloc[0, 3])
-                itemNumber = excelDataFrame.iloc[0, 2]
-                releaseDate = excelDataFrame.iloc[0, 4]
+                print('발주항번 : %s' % excelDataFrame.iloc[0, 2])
+                print('품번 : %s' % excelDataFrame.iloc[0, 3])
+                print('납기일 : %s' % excelDataFrame.iloc[0, 5])
+                print('납품잔량 : %d' % excelDataFrame.iloc[0, 4])
+                itemNumber = excelDataFrame.iloc[0, 3]
+                releaseDate = excelDataFrame.iloc[0, 5]
                 # releaseDate = excelDataFrame.iloc[0, 4][5:10]
                 print('ExcelWrite Function Call')
                 WriteReleasePlan.startWriteCell(releaseFileName, rowFr, rowTo,
                                                 fixColumn, columnFr, columnTo,
                                                 fixRow, itemNumber, releaseDate, orderCount)  # 003
                 print('-----------------------------------------------------')
-                orderCount = excelDataFrame.iloc[1, 3]
+                orderCount = excelDataFrame.iloc[1, 4]
                 print('납품수량 합계 : %d' % orderCount)
                 print('발주번호 : %s' % excelDataFrame.iloc[1, 1])
-                print('품번 : %s' % excelDataFrame.iloc[1, 2])
-                print('납기일 : %s' % excelDataFrame.iloc[1, 4])
-                print('납품잔량 : %d' % excelDataFrame.iloc[1, 3])
-                itemNumber = excelDataFrame.iloc[1, 2]
-                releaseDate = excelDataFrame.iloc[1, 4]
+                print('발주항번 : %s' % excelDataFrame.iloc[1, 2])
+                print('품번 : %s' % excelDataFrame.iloc[1, 3])
+                print('납기일 : %s' % excelDataFrame.iloc[1, 5])
+                print('납품잔량 : %d' % excelDataFrame.iloc[1, 4])
+                itemNumber = excelDataFrame.iloc[1, 3]
+                releaseDate = excelDataFrame.iloc[1, 5]
                 # releaseDate = excelDataFrame.iloc[1, 4][5:10]
                 print('ExcelWrite Function Call')
                 WriteReleasePlan.startWriteCell(releaseFileName, rowFr, rowTo,
@@ -152,11 +161,12 @@ def getStartData(fileName) :
             orderCount = excelDataFrame.iloc[0, 3]
             print('납품수량 합계 : %d' % orderCount)
             print('발주번호 : %s' % excelDataFrame.iloc[0, 1])
-            print('품번 : %s' % excelDataFrame.iloc[0, 2])
-            print('납기일 : %s' % excelDataFrame.iloc[0, 4])
-            print('납품잔량 : %d' % excelDataFrame.iloc[0, 3])
-            itemNumber = excelDataFrame.iloc[0, 2]
-            releaseDate = excelDataFrame.iloc[0, 4]
+            print('발주항번 : %s' % excelDataFrame.iloc[0, 2])
+            print('품번 : %s' % excelDataFrame.iloc[0, 3])
+            print('납기일 : %s' % excelDataFrame.iloc[0, 5])
+            print('납품잔량 : %d' % excelDataFrame.iloc[0, 4])
+            itemNumber = excelDataFrame.iloc[0, 3]
+            releaseDate = excelDataFrame.iloc[0, 5]
             # releaseDate = excelDataFrame.iloc[0, 4][5:10]
             print('ExcelWrite Function Call')
             WriteReleasePlan.startWriteCell(releaseFileName, rowFr, rowTo,
@@ -166,11 +176,12 @@ def getStartData(fileName) :
             orderCount = excelDataFrame.iloc[1, 3]
             print('납품수량 합계 : %d' % orderCount)
             print('발주번호 : %s' % excelDataFrame.iloc[1, 1])
-            print('품번 : %s' % excelDataFrame.iloc[1, 2])
-            print('납기일 : %s' % excelDataFrame.iloc[1, 4])
-            print('납품잔량 : %d' % excelDataFrame.iloc[1, 3])
-            itemNumber = excelDataFrame.iloc[1, 2]
-            releaseDate = excelDataFrame.iloc[1, 4]
+            print('발주항번 : %s' % excelDataFrame.iloc[1, 2])
+            print('품번 : %s' % excelDataFrame.iloc[1, 3])
+            print('납기일 : %s' % excelDataFrame.iloc[1, 5])
+            print('납품잔량 : %d' % excelDataFrame.iloc[1, 4])
+            itemNumber = excelDataFrame.iloc[1, 3]
+            releaseDate = excelDataFrame.iloc[1, 5]
             # releaseDate = excelDataFrame.iloc[0, 4][5:10]
             print('ExcelWrite Function Call')
             WriteReleasePlan.startWriteCell(releaseFileName, rowFr, rowTo,
@@ -182,28 +193,30 @@ def getStartData(fileName) :
     else:
         for i in range(len(excelDataFrame) - 1):
             print('-----------------------------------------------------')
-            if (excelDataFrame.iloc[i, 2] == excelDataFrame.iloc[i + 1, 2]):
-                if (excelDataFrame.iloc[i, 4] == excelDataFrame.iloc[i + 1, 4]):
+            if (excelDataFrame.iloc[i, 3] == excelDataFrame.iloc[i + 1, 3]):
+                if (excelDataFrame.iloc[i, 5] == excelDataFrame.iloc[i + 1, 5]):
                     if (i >= len(excelDataFrame) - 2):
                         #checkValue = True
-                        orderCount = orderCount + excelDataFrame.iloc[i + 1, 3]
+                        orderCount = orderCount + excelDataFrame.iloc[i + 1, 4]
                         print('납품수량 합계 : %d' % orderCount)
-                        print('발주번호 : %s' % excelDataFrame.iloc[i, 1])  # 발주번호
-                        print('품번 : %s' % excelDataFrame.iloc[i, 2])  # 품번
-                        print('납기일 : %s' % excelDataFrame.iloc[i, 4])  # 납기일
-                        print('요청수량 : %d' % excelDataFrame.iloc[i, 3])  # 요청수량 INTEGER
+                        print('발주번호 : %s' % excelDataFrame.iloc[i, 1])
+                        print('발주항번 : %s' % excelDataFrame.iloc[i, 2])
+                        print('품번 : %s' % excelDataFrame.iloc[i, 3])
+                        print('납기일 : %s' % excelDataFrame.iloc[i, 5])
+                        print('납품잔량 : %d' % excelDataFrame.iloc[i, 4])
                         print('-----------------------------------------------------')
 
                     # 원래 동일품번 동일납기 로직 수행
                     #checkValue = True
-                    orderCount = orderCount + excelDataFrame.iloc[i + 1, 3]
+                    orderCount = orderCount + excelDataFrame.iloc[i + 1, 4]
                     print('납품수량 합계 : %d' % orderCount)
-                    print('발주번호 : %s' % excelDataFrame.iloc[i + 1, 1])  # 발주번호
-                    print('품번 : %s' % excelDataFrame.iloc[i + 1, 2])  # 품번
-                    print('납기일 : %s' % excelDataFrame.iloc[i + 1, 4])  # 납기일
-                    print('요청수량 : %d' % excelDataFrame.iloc[i + 1, 3])  # 요청수량 INTEGER
-                    itemNumber = excelDataFrame.iloc[i+1, 2] #002
-                    releaseDate = excelDataFrame.iloc[i+1, 4] #002
+                    print('발주번호 : %s' % excelDataFrame.iloc[i+1, 1])
+                    print('발주항번 : %s' % excelDataFrame.iloc[i+1, 2])
+                    print('품번 : %s' % excelDataFrame.iloc[i+1, 3])
+                    print('납기일 : %s' % excelDataFrame.iloc[i+1, 5])
+                    print('납품잔량 : %d' % excelDataFrame.iloc[i+1, 4])
+                    itemNumber = excelDataFrame.iloc[i+1, 3]
+                    releaseDate = excelDataFrame.iloc[i+1, 5]
                     #releaseDate = excelDataFrame.iloc[i + 1, 4][5:10]
                     if (i == len(excelDataFrame) - 2):
                         print('ExcelWrite Function Call') #001
@@ -222,14 +235,15 @@ def getStartData(fileName) :
                     #     orderCount = orderCount + excelDataFrame.iloc[i, 3]
                     # else:
                     #     orderCount = orderCount + excelDataFrame.iloc[i, 3]
-                    orderCount = orderCount + excelDataFrame.iloc[i, 3]
+                    orderCount = orderCount + excelDataFrame.iloc[i, 4]
                     print('납품수량 합계 : %d' % orderCount)
-                    print('발주번호 : %s' % excelDataFrame.iloc[i, 1])  # 발주번호
-                    print('품번 : %s' % excelDataFrame.iloc[i, 2])  # 품번
-                    print('납기일 : %s' % excelDataFrame.iloc[i, 4])  # 납기일
-                    print('요청수량 : %d' % excelDataFrame.iloc[i, 3])  # 요청수량 INTEGER
-                    itemNumber = excelDataFrame.iloc[i, 2]  # 002
-                    releaseDate = excelDataFrame.iloc[i, 4]  # 002
+                    print('발주번호 : %s' % excelDataFrame.iloc[i, 1])
+                    print('발주항번 : %s' % excelDataFrame.iloc[i, 2])
+                    print('품번 : %s' % excelDataFrame.iloc[i, 3])
+                    print('납기일 : %s' % excelDataFrame.iloc[i, 5])
+                    print('납품잔량 : %d' % excelDataFrame.iloc[i, 4])
+                    itemNumber = excelDataFrame.iloc[i, 3]
+                    releaseDate = excelDataFrame.iloc[i, 5]
                     # releaseDate = excelDataFrame.iloc[i, 4][5:10]
                     #if (i == len(excelDataFrame) - 2):
                     print('ExcelWrite Function Call')  # 001
@@ -243,14 +257,15 @@ def getStartData(fileName) :
                     # 마지막 index 수행
                     if (i == len(excelDataFrame) - 2):
                         print('마지막 index 실행')
-                        orderCount = orderCount + excelDataFrame.iloc[i + 1, 3]
+                        orderCount = orderCount + excelDataFrame.iloc[i + 1, 4]
                         print('납품수량 합계 : %d' % orderCount)
-                        print('발주번호 : %s' % excelDataFrame.iloc[i + 1, 1])  # 발주번호
-                        print('품번 : %s' % excelDataFrame.iloc[i + 1, 2])  # 품번
-                        print('납기일 : %s' % excelDataFrame.iloc[i + 1, 4])  # 납기일
-                        print('요청수량 : %d' % excelDataFrame.iloc[i + 1, 3])  # 요청수량 INTEGER
-                        itemNumber = excelDataFrame.iloc[i + 1, 2]  # 002
-                        releaseDate = excelDataFrame.iloc[i + 1, 4]  # 002
+                        print('발주번호 : %s' % excelDataFrame.iloc[i+1, 1])
+                        print('발주항번 : %s' % excelDataFrame.iloc[i+1, 2])
+                        print('품번 : %s' % excelDataFrame.iloc[i+1, 3])
+                        print('납기일 : %s' % excelDataFrame.iloc[i+1, 5])
+                        print('납품잔량 : %d' % excelDataFrame.iloc[i+1, 4])
+                        itemNumber = excelDataFrame.iloc[i+1, 3]
+                        releaseDate = excelDataFrame.iloc[i+1, 5]
                         # releaseDate = excelDataFrame.iloc[i + 1, 4][5:10]
                         #if (i == len(excelDataFrame) - 2):
                         print('ExcelWrite Function Call')  # 001
@@ -270,14 +285,15 @@ def getStartData(fileName) :
                 #     orderCount = orderCount + excelDataFrame.iloc[i, 3]
                 # else:
                 #     orderCount = orderCount + excelDataFrame.iloc[i, 3]
-                orderCount = orderCount + excelDataFrame.iloc[i, 3]
+                orderCount = orderCount + excelDataFrame.iloc[i, 4]
                 print('납품수량 합계 : %d' % orderCount)
-                print('발주번호 : %s' % excelDataFrame.iloc[i, 1])  # 발주번호
-                print('품번 : %s' % excelDataFrame.iloc[i, 2])  # 품번
-                print('납기일 : %s' % excelDataFrame.iloc[i, 4])  # 납기일
-                print('요청수량 : %d' % excelDataFrame.iloc[i, 3])  # 요청수량 INTEGER
-                itemNumber = excelDataFrame.iloc[i, 2]  # 002
-                releaseDate = excelDataFrame.iloc[i, 4]  # 002
+                print('발주번호 : %s' % excelDataFrame.iloc[i, 1])
+                print('발주항번 : %s' % excelDataFrame.iloc[i, 2])
+                print('품번 : %s' % excelDataFrame.iloc[i, 3])
+                print('납기일 : %s' % excelDataFrame.iloc[i, 5])
+                print('납품잔량 : %d' % excelDataFrame.iloc[i, 4])
+                itemNumber = excelDataFrame.iloc[i, 3]
+                releaseDate = excelDataFrame.iloc[i, 5]
                 # releaseDate = excelDataFrame.iloc[i, 4][5:10]
                 print('ExcelWrite Function Call')  # 001
                 WriteReleasePlan.startWriteCell(releaseFileName, rowFr, rowTo,
@@ -290,14 +306,15 @@ def getStartData(fileName) :
                 # 마지막 index 수행
                 if (i == len(excelDataFrame) - 2):
                     print('마지막 index 실행')
-                    orderCount = orderCount + excelDataFrame.iloc[i + 1, 3]
+                    orderCount = orderCount + excelDataFrame.iloc[i + 1, 4]
                     print('납품수량 합계 : %d' % orderCount)
-                    print('발주번호 : %s' % excelDataFrame.iloc[i + 1, 1])  # 발주번호
-                    print('품번 : %s' % excelDataFrame.iloc[i + 1, 2])  # 품번
-                    print('납기일 : %s' % excelDataFrame.iloc[i + 1, 4])  # 납기일
-                    print('요청수량 : %d' % excelDataFrame.iloc[i + 1, 3])  # 요청수량 INTEGER
-                    itemNumber = excelDataFrame.iloc[i + 1, 2]  # 002
-                    releaseDate = excelDataFrame.iloc[i + 1, 4]  # 002
+                    print('발주번호 : %s' % excelDataFrame.iloc[i+1, 1])
+                    print('발주항번 : %s' % excelDataFrame.iloc[i+1, 2])
+                    print('품번 : %s' % excelDataFrame.iloc[i+1, 3])
+                    print('납기일 : %s' % excelDataFrame.iloc[i+1, 5])
+                    print('납품잔량 : %d' % excelDataFrame.iloc[i+1, 4])
+                    itemNumber = excelDataFrame.iloc[i+1, 3]
+                    releaseDate = excelDataFrame.iloc[i+1, 5]
                     # releaseDate = excelDataFrame.iloc[i + 1, 4][5:10]
                     #if (i == len(excelDataFrame) - 2):
                     print('ExcelWrite Function Call')  # 001
