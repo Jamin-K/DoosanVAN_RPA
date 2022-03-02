@@ -3,6 +3,7 @@
 # 수정 : 2022.02.04 김재민 : 함수 input값 추가
 #       2022.02.19 김재민 : 클래스 생성, 함수 호출 및 getter 접근 #001
 #       2022.02.19 김재민 : 얻은 좌표에 Write OrderCount 및 엑셀 저장 #002
+#       2022.03.02 김재민 : ReleasePlan에 쓰기 실패한 데이터 리스트 기록 in writeFaieldlist.xlsx #003
 
 from openpyxl import load_workbook
 import findValueLocation
@@ -11,7 +12,8 @@ import pandas as pd
 import CheckWorkDays
 
 
-def startWriteCell(filePath, rowFr, rowTo, fixColumn, columnFr, columnTo, fixRow, findValue1, findValue2, orderCount) :
+def startWriteCell(filePath, rowFr, rowTo, fixColumn, columnFr, columnTo, fixRow, findValue1, findValue2, orderCount,
+                   orderNumber, semiOrderNumber) :
     wb = load_workbook(filePath)
     ws = wb.active
     cordinate = Coordinate() #001
@@ -28,6 +30,8 @@ def startWriteCell(filePath, rowFr, rowTo, fixColumn, columnFr, columnTo, fixRow
         print('Write Cordinate!! : %d %d' % (cordinate.getRow(), cordinate.getCol())) #001
         print('Write Cordinate of OrderCount : %d' % orderCount) #001
         ws.cell(cordinate.getRow(), cordinate.getCol(), orderCount) #002
+    elif(cordinate.getRow() == 0 and cordinate.getCol() == 0) : #003
+        print('Write Failed 데이터 엑셀 기록')
 
 
     wb.save(filePath) #002
