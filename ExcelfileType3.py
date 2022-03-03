@@ -38,7 +38,7 @@ pd.set_option('display.max_columns', None)
 
 # DataFrame 기본 옵션 세팅 END
 
-def getStartData(fileName):
+def getStartData(fileName, wbFailedListExcel):
     # 탐색 범위 선언 START
     if '1000JISINCHEON' in fileName : #003
         print('1000JISINCHOEN 파일 시작')
@@ -110,10 +110,10 @@ def getStartData(fileName):
         releaseDate = excelDataFrame.iloc[0, 4]
         orderNumber = excelDataFrame.iloc[0, 0]
         semiOrderNumber = excelDataFrame.iloc[0, 1]
-        WriteReleasePlan.startWriteCell(releaseFileName, rowFr,
-                                        rowTo,
+        WriteReleasePlan.startWriteCell(releaseFileName, rowFr, rowTo,
                                         fixColumn, columnFr, columnTo,
-                                        fixRow, itemNumber, releaseDate, orderCount, orderNumber, semiOrderNumber)  # 003
+                                        fixRow, itemNumber, releaseDate, orderCount, orderNumber
+                                        , semiOrderNumber, wbFailedListExcel, fileName)  # 003
     # 데이터가 1개 있을 때 실행되는 로직 END
 
     # 데이터가 2개 있을 떄 실행되는 로직 START
@@ -134,10 +134,10 @@ def getStartData(fileName):
                 releaseDate = excelDataFrame.iloc[0, 4]
                 orderNumber = excelDataFrame.iloc[0, 0]
                 semiOrderNumber = excelDataFrame.iloc[0, 1]
-                WriteReleasePlan.startWriteCell(releaseFileName, rowFr,
-                                                rowTo,
+                WriteReleasePlan.startWriteCell(releaseFileName, rowFr, rowTo,
                                                 fixColumn, columnFr, columnTo,
-                                                fixRow, itemNumber, releaseDate, orderCount, orderNumber, semiOrderNumber)  # 003
+                                                fixRow, itemNumber, releaseDate, orderCount, orderNumber
+                                                , semiOrderNumber, wbFailedListExcel, fileName)  # 003
                 print('-----------------------------------------------------')
             else:
                 # 동일품번 다른납기
@@ -154,10 +154,10 @@ def getStartData(fileName):
                 releaseDate = excelDataFrame.iloc[0, 4]
                 orderNumber = excelDataFrame.iloc[0, 0]
                 semiOrderNumber = excelDataFrame.iloc[0, 1]
-                WriteReleasePlan.startWriteCell(releaseFileName, rowFr,
-                                                rowTo,
+                WriteReleasePlan.startWriteCell(releaseFileName, rowFr, rowTo,
                                                 fixColumn, columnFr, columnTo,
-                                                fixRow, itemNumber, releaseDate, orderCount, orderNumber, semiOrderNumber)  # 003
+                                                fixRow, itemNumber, releaseDate, orderCount, orderNumber
+                                                , semiOrderNumber, wbFailedListExcel, fileName)  # 003
                 print('-----------------------------------------------------')
                 orderCount = excelDataFrame.iloc[1, 5]
                 print('납품수량 합계 : %d' % orderCount)
@@ -172,10 +172,10 @@ def getStartData(fileName):
                 releaseDate = excelDataFrame.iloc[1, 4]
                 orderNumber = excelDataFrame.iloc[1, 0]
                 semiOrderNumber = excelDataFrame.iloc[1, 1]
-                WriteReleasePlan.startWriteCell(releaseFileName, rowFr,
-                                                rowTo,
+                WriteReleasePlan.startWriteCell(releaseFileName, rowFr, rowTo,
                                                 fixColumn, columnFr, columnTo,
-                                                fixRow, itemNumber, releaseDate, orderCount,orderNumber,semiOrderNumber)  # 003
+                                                fixRow, itemNumber, releaseDate, orderCount, orderNumber
+                                                , semiOrderNumber, wbFailedListExcel, fileName)  # 003
                 print('-----------------------------------------------------')
         else:
             # 다른품번
@@ -192,10 +192,10 @@ def getStartData(fileName):
             releaseDate = excelDataFrame.iloc[0, 4]
             orderNumber = excelDataFrame.iloc[0, 0]
             semiOrderNumber = excelDataFrame.iloc[0, 1]
-            WriteReleasePlan.startWriteCell(releaseFileName, rowFr,
-                                            rowTo,
+            WriteReleasePlan.startWriteCell(releaseFileName, rowFr, rowTo,
                                             fixColumn, columnFr, columnTo,
-                                            fixRow, itemNumber, releaseDate, orderCount, orderNumber,semiOrderNumber)  # 003
+                                            fixRow, itemNumber, releaseDate, orderCount, orderNumber
+                                            , semiOrderNumber, wbFailedListExcel, fileName)  # 003
             print('-----------------------------------------------------')
             orderCount = excelDataFrame.iloc[1, 5]
             print('납품수량 합계 : %d' % orderCount)
@@ -210,10 +210,10 @@ def getStartData(fileName):
             releaseDate = excelDataFrame.iloc[1, 4]
             orderNumber = excelDataFrame.iloc[1, 0]
             semiOrderNumber = excelDataFrame.iloc[1, 1]
-            WriteReleasePlan.startWriteCell(releaseFileName, rowFr,
-                                            rowTo,
+            WriteReleasePlan.startWriteCell(releaseFileName, rowFr, rowTo,
                                             fixColumn, columnFr, columnTo,
-                                            fixRow, itemNumber, releaseDate, orderCount, orderNumber, semiOrderNumber)  # 003
+                                            fixRow, itemNumber, releaseDate, orderCount, orderNumber
+                                            , semiOrderNumber, wbFailedListExcel, fileName)  # 003
             print('-----------------------------------------------------')
     # 데이터가 2개 있을 때 실행되는 로직 END
 
@@ -252,10 +252,10 @@ def getStartData(fileName):
                 print(releaseDate)
                 if (i == len(excelDataFrame) - 2):
                     print('ExcelWrite Function Call') #001
-                    WriteReleasePlan.startWriteCell(releaseFileName, rowFr,
-                                                    rowTo,
+                    WriteReleasePlan.startWriteCell(releaseFileName, rowFr, rowTo,
                                                     fixColumn, columnFr, columnTo,
-                                                    fixRow, itemNumber, releaseDate, orderCount, orderNumber, semiOrderNumber)  # 003
+                                                    fixRow, itemNumber, releaseDate, orderCount, orderNumber
+                                                    , semiOrderNumber, wbFailedListExcel, fileName)  # 003
                 print('-----------------------------------------------------')
 
             else:
@@ -275,10 +275,10 @@ def getStartData(fileName):
                 releaseDate = excelDataFrame.iloc[i, 4]
                 orderNumber = excelDataFrame.iloc[i, 0]
                 semiOrderNumber = excelDataFrame.iloc[i, 1]
-                WriteReleasePlan.startWriteCell(releaseFileName, rowFr,
-                                                rowTo,
+                WriteReleasePlan.startWriteCell(releaseFileName, rowFr, rowTo,
                                                 fixColumn, columnFr, columnTo,
-                                                fixRow, itemNumber, releaseDate, orderCount, orderNumber, semiOrderNumber)  # 003
+                                                fixRow, itemNumber, releaseDate, orderCount, orderNumber
+                                                , semiOrderNumber, wbFailedListExcel, fileName)  # 003
                 print('-----------------------------------------------------')
                 # 2 orderCount = 0 초기화
                 orderCount = 0
@@ -298,10 +298,10 @@ def getStartData(fileName):
                     releaseDate = excelDataFrame.iloc[i+1, 4]
                     orderNumber = excelDataFrame.iloc[i + 1, 0]
                     semiOrderNumber = excelDataFrame.iloc[i + 1, 1]
-                    WriteReleasePlan.startWriteCell(releaseFileName, rowFr,
-                                                    rowTo,
+                    WriteReleasePlan.startWriteCell(releaseFileName, rowFr, rowTo,
                                                     fixColumn, columnFr, columnTo,
-                                                    fixRow, itemNumber, releaseDate, orderCount, orderNumber, semiOrderNumber)  # 003
+                                                    fixRow, itemNumber, releaseDate, orderCount, orderNumber
+                                                    , semiOrderNumber, wbFailedListExcel, fileName)  # 003
                     print('-----------------------------------------------------')
                     orderCount = 0
 
@@ -322,10 +322,10 @@ def getStartData(fileName):
             releaseDate = excelDataFrame.iloc[i, 4]
             orderNumber = excelDataFrame.iloc[i, 0]
             semiOrderNumber = excelDataFrame.iloc[i, 1]
-            WriteReleasePlan.startWriteCell(releaseFileName, rowFr,
-                                            rowTo,
+            WriteReleasePlan.startWriteCell(releaseFileName, rowFr, rowTo,
                                             fixColumn, columnFr, columnTo,
-                                            fixRow, itemNumber, releaseDate, orderCount, orderNumber, semiOrderNumber)  # 003
+                                            fixRow, itemNumber, releaseDate, orderCount, orderNumber
+                                            , semiOrderNumber, wbFailedListExcel, fileName)  # 003
             print('-----------------------------------------------------')
             # 2 orderCount = 0 초기화
             orderCount = 0
@@ -345,10 +345,10 @@ def getStartData(fileName):
                 releaseDate = excelDataFrame.iloc[i+1, 4]
                 orderNumber = excelDataFrame.iloc[i + 1, 0]
                 semiOrderNumber = excelDataFrame.iloc[i + 1, 1]
-                WriteReleasePlan.startWriteCell(releaseFileName, rowFr,
-                                                rowTo,
+                WriteReleasePlan.startWriteCell(releaseFileName, rowFr, rowTo,
                                                 fixColumn, columnFr, columnTo,
-                                                fixRow, itemNumber, releaseDate, orderCount, orderNumber, semiOrderNumber)  # 003
+                                                fixRow, itemNumber, releaseDate, orderCount, orderNumber
+                                                , semiOrderNumber, wbFailedListExcel, fileName)  # 003
                 print('-----------------------------------------------------')
                 orderCount = 0
     # 데이터가 3개 이상 있을 때 실행되는 로직 END

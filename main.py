@@ -10,17 +10,20 @@
 # 1000JISINCHEON  -> 인천
 # 1111JISGUNSAN   -> 군산
 # 값을 못 찾아서 Excel Write 실패 시 실패 데이터를 특정 Excel 파일에 모아놓아야함.
-# Excel Write하는 로직 작성 필요
-# 공휴일 체크 로직 필요(공휴일 API 사용 + 업체 공휴일을 엑셀 파일에 수기로 추가)
+# 1. 그날 실패한 데이터를 엑셀 파일별로 엑셀을 만들어 보관
+# 2. 다음 날 실행될때 동일 엑셀 파일까치 합침(실패한 데이터가 그 날 수행될 데이터와 합쳐짐)
+# 3. 그 파일을 수행시킴
+
 
 
 import os
 import datetime
 from tkinter import messagebox
-
 import ExcelfileType1, ExcelfileType2, ExcelfileType3, setExcel
-import time
 import setHolidays
+import CreatedFailedExcelFile
+import time
+from openpyxl import load_workbook
 from tkinter import *
 
 # GUI 생성 START
@@ -107,7 +110,6 @@ if(todayDate[4:9] == '0101') :
 # 공휴일 및 국경일 Excel Write END
 
 # 오늘 날짜 추출 START
-todayDate = datetime.datetime.now().strftime('%Y%m%d')
 print('수행날짜 : %s' %todayDate)
 print(datetime.datetime.now().weekday())
 todayDate = '20220214' #TestCode
@@ -119,31 +121,40 @@ file_list = os.listdir(path)
 #print(file_list)
 # 폴더 파일 리스트 추출 END
 
+# 실패한 데이터를 담을 excel 파일 만들기 START
+failedFileName = 'FailedDataList.xlsx'
+CreatedFailedExcelFile.start(path, failedFileName)
+wbFailedListExcel = load_workbook(path + '/FailedData/' + failedFileName)
+# 실패한 데이터를 담을 excel 파일 만들기 END
+
 # 출고계획 엑셀 파일 set 함수 호출 START
 #setExcel.setStartPlanFile(path+'/'+'doosanReleasePlan'+todayDate+'.xlsx')
 #setExcel.setStartPlanFile(path+'/'+'doosanReleasePlan20220118.xlsx') #TestCode
 # 출고계획 엑셀 파일 set 함수 호출 END
 print(file_list)
 
+# 실패데이터
+
 # 파일 이름에 따른 엑셀 데이터 추출 함수 호출 START
 for fileName in file_list :
     if '1000DIrINCHEON'+todayDate in fileName :
-        ExcelfileType1.getStartData(path+'/'+fileName)
+        ExcelfileType1.getStartData(path+'/'+fileName, wbFailedListExcel)
     elif '1000INCHEON'+todayDate in fileName :
-        ExcelfileType1.getStartData(path+'/'+fileName)
+        ExcelfileType1.getStartData(path+'/'+fileName, wbFailedListExcel)
     elif '1100CKD'+todayDate in fileName :
-        ExcelfileType1.getStartData(path+'/'+fileName)
-    elif '1130INCHOEN'+todayDate in fileName :
-        ExcelfileType1.getStartData(path+'/'+fileName)
+        ExcelfileType1.getStartData(path+'/'+fileName, wbFailedListExcel)
+    elif '1130INCHEON'+todayDate in fileName :
+        ExcelfileType1.getStartData(path+'/'+fileName, wbFailedListExcel)
     elif '6000ANSAN'+todayDate in fileName :
-        ExcelfileType2.getStartData(path + '/' + fileName)
+        ExcelfileType2.getStartData(path + '/' + fileName, wbFailedListExcel)
     elif '1000JISINCHEON'+todayDate in fileName :
-        ExcelfileType3.getStartData(path + '/' + fileName)
+        ExcelfileType3.getStartData(path + '/' + fileName, wbFailedListExcel)
     elif '1111JISGUNSAN'+todayDate in fileName :
-        ExcelfileType3.getStartData(path + '/' + fileName)
+        ExcelfileType3.getStartData(path + '/' + fileName, wbFailedListExcel)
     else :
         print('파일 분류 에러 : %s' %fileName)
 
 # 파일 이름에 따른 엑셀 데이터 추출 함수 호출 END
 
+wbFailedListExcel.save(path + '/FailedData/' + failedFileName)
 print('코드 수행 시간 :', time.time() - startTime)
