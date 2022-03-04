@@ -46,16 +46,23 @@ def startWriteCell(filePath, rowFr, rowTo, fixColumn, columnFr, columnTo, fixRow
     elif(cordinate.getRow() == 0 and cordinate.getCol() == 0) : #003
         print('Write Failed 데이터 엑셀 기록')
 
-        # 여기에서 실패 데이터를 엑셀 파일에 기록. startWriteCell() 인자에 파일이름도 담겨야함(파일이름 추출을 위해)
-        # ExcelFileName : 'FailedWrite' + filename.xlsx
-        # OrderNumber / semiOrderNumber / findValue1(품명) / findValue2(날짜) / Ordercount
-
-        # sheetName으로 해당 시트 호출 START
+        # sheetName으로 해당 시트에 기록 START
         #wsFailedListExcel = wbFailedListExcel.get_sheet_by_name('sheetName')
         wsFailedListExcel = wbFailedListExcel[sheetName]
-        wsFailedListExcel.cell(1, 1, 'test')
+        wsFailedListExcel.cell(1, 1, '발주번호')
+        wsFailedListExcel.cell(1, 2, '발주항번')
+        wsFailedListExcel.cell(1, 3, '품명')
+        wsFailedListExcel.cell(1, 4, '날짜')
+        wsFailedListExcel.cell(1, 5, '발주수량')
+        tempList = []
+        tempList.append(orderNumber)
+        tempList.append(semiOrderNumber)
+        tempList.append(findValue1)
+        tempList.append(findValue2)
+        tempList.append(orderCount)
+        wsFailedListExcel.append(tempList)
 
-        # sheetName으로 해당 시트 호출 END
+        # sheetName으로 해당 시트에 기록 END
 
 
     wb.save(filePath) #002

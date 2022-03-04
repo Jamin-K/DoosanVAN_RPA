@@ -5,6 +5,7 @@
 #       2022.02.03 김재민 : 품번, 납기일 전역변수 추가 및 납기일 Split #002
 #       2022.02.04 김재민 : startWriteCell() 함수 호출을 위한 변수선언 및 함수 호출 #003
 #       2022.02.13 김재민 : 데이터가 1개일떄, 2개일때 함수 call 로직 추가
+#       2022.03.04 김재민 : VAN에서 추출한 DataFrame을 별도의 엑셀로 저장 로직 추가 #004
 
 import datetime
 import pandas as pd
@@ -14,7 +15,8 @@ import WriteReleasePlan
 from openpyxl import load_workbook
 
 # 변수선언 START
-todayDate = datetime.datetime.now().strftime('%Y%m%d')
+#todayDate = datetime.datetime.now().strftime('%Y%m%d')
+todayDate = '20220214' # TestCode
 itemNumber = None; # 품번 #002
 releaseDate = None; # 납기일 #002
 rowFr = None
@@ -37,21 +39,58 @@ pd.set_option('display.max_rows', None)
 pd.set_option('display.max_columns', None)
 # DataFrame 기본 옵션 세팅 END
 
-def getStartData(fileName, wbFailedListExcel) :
+
+
+def getStartData(path, fileName, wbFailedListExcel) :
+    # input - path : 'C:/Users/KJM/Desktop/DSVAN'+todayDate
+    # input - fileName : 1000INCHOEN.xlsx
+    # input - wbFailedListExcel : load_workbook(실패한 데이터를 작성할 엑셀)
+
+    # 전날 실패데이터 경로 추출 START #004
+    path = path[0:path.find('DSVAN' + todayDate) + 5]  #004 ----> 날짜 데이터를 더해서 사용
+    # 전날 실패데이터 경로 추출 END
+
+    # excelDataFrame = pd.read_excel(path+'/'+fileName, usecols=[10, 16, 17, 19, 31, 38],
+    #                                dtype={'발주번호': str,
+    #                                       '발주항번': str})
+
+    converExcelDataFrame = pd.read_excel(path+todayDate+'/'+fileName, usecols=[10, 16, 17, 19, 31, 38],
+                                         dtype={'발주번호': str,
+                                                '발주항번': str})  # 004
     if '1000INCHEON' in fileName :
         print('1000INCHEON 파일 시작')
+        converExcelDataFrame.to_excel(fileDirPath + '/수행예정데이터/1000INCHEON.xlsx') #004
+        excelDataFrame = pd.read_excel(fileDirPath + '/수행예정데이터/1000INCHEON.xlsx',
+                                       dtype={'발주번호': str,
+                                              '발주항번': str})
+        excelDataFrame.drop(excelDataFrame.columns[0], axis=1, inplace=True)
         rowFr = 11
         rowTo = 50
     elif '1000DirINCHEON' in fileName : # 한양정밀
         print('1000DirINCHOEN 파일 시작')
+        converExcelDataFrame.to_excel(fileDirPath + '/수행예정데이터/1000DirINCHEON.xlsx') #004
+        excelDataFrame = pd.read_excel(fileDirPath + '/수행예정데이터/1000DirINCHEON.xlsx',
+                                       dtype={'발주번호': str,
+                                              '발주항번': str})
+        excelDataFrame.drop(excelDataFrame.columns[0], axis=1, inplace=True)
         rowFr = 5
         rowTo = 7
     elif '1100CKD' in fileName :
         print('1100CKD 파일 시작')
+        converExcelDataFrame.to_excel(fileDirPath + '/수행예정데이터/1100CKD.xlsx') #004
+        excelDataFrame = pd.read_excel(fileDirPath + '/수행예정데이터/1100CKD.xlsx',
+                                       dtype={'발주번호': str,
+                                              '발주항번': str})
+        excelDataFrame.drop(excelDataFrame.columns[0], axis=1, inplace=True)
         rowFr = 7
         rowTo = 11
     elif '1130INCHEON' in fileName :
         print('1130INCHOEN 파일 시작')
+        converExcelDataFrame.to_excel(fileDirPath + '/수행예정데이터/1130INCHEON.xlsx') #004
+        excelDataFrame = pd.read_excel(fileDirPath + '/수행예정데이터/1130INCHEON.xlsx',
+                                       dtype={'발주번호': str,
+                                              '발주항번': str})
+        excelDataFrame.drop(excelDataFrame.columns[0], axis=1, inplace=True)
         rowFr = 11
         rowTo = 50
     else :
@@ -59,13 +98,6 @@ def getStartData(fileName, wbFailedListExcel) :
 
     print('START : %s' %fileName)
     print('▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼')
-    excelDataFrame = pd.read_excel(fileName, usecols=[10, 16, 17, 19, 31, 38],
-                                   dtype={'발주번호':str,
-                                          '발주항번':str})
-    # excelDataFrame = pd.read_excel(fileName, names=['JIS', '발주번호', '발주항번', '품번', '납품잔량', '납기일자'],
-    #                                dtype={'발주번호': str,
-    #                                       '발주항번': str})
-    # JIS, 발주번호, 품번, 납품잔량, 납기일자, 발주항번 필드 추출
 
     # JIS 값이 Y인 컬럼 DROP ROW START
     for index, row in excelDataFrame.iterrows() :

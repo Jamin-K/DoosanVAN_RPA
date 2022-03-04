@@ -33,9 +33,6 @@ class Coordinate : #002
         return self.column
 
     def startFindValue(self, filePath, rowFr, rowTo, fixColumn, columnFr, columnTo, fixRow, findValue1, findValue2, ws): #003
-        # ws를 한번 더 호출하지 않고 함수 인자에 담아 들고오기 때문에 엑셀을 한번 더 열 필요가 없어져 수행시간 빨라짐
-        #wb = load_workbook(filePath)
-        #ws = wb.active
 
         # findvalue2는 날짜, yyyy/mm/dd 형태로 받아옴, mm/dd 형태로 가공
         fullDate = findValue2 #004
@@ -71,6 +68,5 @@ class Coordinate : #002
         checkFindValue = False  # 001
         checkFindValueItem = False  # 001
 
-        #wb.close()
 
 

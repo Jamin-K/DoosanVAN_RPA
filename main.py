@@ -21,6 +21,7 @@ import datetime
 from tkinter import messagebox
 import ExcelfileType1, ExcelfileType2, ExcelfileType3, setExcel
 import setHolidays
+import AddFailedData
 import CreatedFailedExcelFile
 import time
 from openpyxl import load_workbook
@@ -133,24 +134,36 @@ wbFailedListExcel = load_workbook(path + '/FailedData/' + failedFileName)
 # 출고계획 엑셀 파일 set 함수 호출 END
 print(file_list)
 
-# 실패데이터
-
 # 파일 이름에 따른 엑셀 데이터 추출 함수 호출 START
 for fileName in file_list :
     if '1000DIrINCHEON'+todayDate in fileName :
-        ExcelfileType1.getStartData(path+'/'+fileName, wbFailedListExcel)
+        AddFailedData.addFailedDataStart(path, fileName, todayDate)
+        #ExcelfileType1.getStartData(path, fileName, wbFailedListExcel)
+
     elif '1000INCHEON'+todayDate in fileName :
-        ExcelfileType1.getStartData(path+'/'+fileName, wbFailedListExcel)
+        AddFailedData.addFailedDataStart(path, fileName, todayDate)
+        #ExcelfileType1.getStartData(path, fileName, wbFailedListExcel)
+
     elif '1100CKD'+todayDate in fileName :
-        ExcelfileType1.getStartData(path+'/'+fileName, wbFailedListExcel)
+        AddFailedData.addFailedDataStart(path, fileName, todayDate)
+        #ExcelfileType1.getStartData(path, fileName, wbFailedListExcel)
+
     elif '1130INCHEON'+todayDate in fileName :
-        ExcelfileType1.getStartData(path+'/'+fileName, wbFailedListExcel)
+        AddFailedData.addFailedDataStart(path, fileName, todayDate)
+        #ExcelfileType1.getStartData(path, fileName, wbFailedListExcel)
+
     elif '6000ANSAN'+todayDate in fileName :
-        ExcelfileType2.getStartData(path + '/' + fileName, wbFailedListExcel)
+        AddFailedData.addFailedDataStart(path, fileName, todayDate)
+        #ExcelfileType2.getStartData(path, fileName, wbFailedListExcel)
+
     elif '1000JISINCHEON'+todayDate in fileName :
-        ExcelfileType3.getStartData(path + '/' + fileName, wbFailedListExcel)
+        AddFailedData.addFailedDataStart(path, fileName, todayDate)
+        #ExcelfileType3.getStartData(path, fileName, wbFailedListExcel)
+
     elif '1111JISGUNSAN'+todayDate in fileName :
-        ExcelfileType3.getStartData(path + '/' + fileName, wbFailedListExcel)
+        AddFailedData.addFailedDataStart(path, fileName, todayDate)
+        #ExcelfileType3.getStartData(path, fileName, wbFailedListExcel)
+
     else :
         print('파일 분류 에러 : %s' %fileName)
 
