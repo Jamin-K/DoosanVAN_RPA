@@ -112,7 +112,6 @@ if(todayDate[4:9] == '0101') :
 
 # 오늘 날짜 추출 START
 print('수행날짜 : %s' %todayDate)
-print(datetime.datetime.now().weekday())
 todayDate = '20220214' #TestCode
 # 오늘 날짜 추출 END
 
@@ -136,33 +135,33 @@ print(file_list)
 
 # 파일 이름에 따른 엑셀 데이터 추출 함수 호출 START
 for fileName in file_list :
-    if '1000DIrINCHEON'+todayDate in fileName :
+    if '1000DirINCHEON'+todayDate in fileName :
         AddFailedData.addFailedDataStart(path, fileName, todayDate)
-        #ExcelfileType1.getStartData(path, fileName, wbFailedListExcel)
+        ExcelfileType1.getStartData(path, fileName, wbFailedListExcel)
 
     elif '1000INCHEON'+todayDate in fileName :
         AddFailedData.addFailedDataStart(path, fileName, todayDate)
-        #ExcelfileType1.getStartData(path, fileName, wbFailedListExcel)
+        ExcelfileType1.getStartData(path, fileName, wbFailedListExcel)
 
     elif '1100CKD'+todayDate in fileName :
         AddFailedData.addFailedDataStart(path, fileName, todayDate)
-        #ExcelfileType1.getStartData(path, fileName, wbFailedListExcel)
+        ExcelfileType1.getStartData(path, fileName, wbFailedListExcel)
 
     elif '1130INCHEON'+todayDate in fileName :
         AddFailedData.addFailedDataStart(path, fileName, todayDate)
-        #ExcelfileType1.getStartData(path, fileName, wbFailedListExcel)
+        ExcelfileType1.getStartData(path, fileName, wbFailedListExcel)
 
     elif '6000ANSAN'+todayDate in fileName :
         AddFailedData.addFailedDataStart(path, fileName, todayDate)
-        #ExcelfileType2.getStartData(path, fileName, wbFailedListExcel)
+        ExcelfileType2.getStartData(path, fileName, wbFailedListExcel)
 
     elif '1000JISINCHEON'+todayDate in fileName :
         AddFailedData.addFailedDataStart(path, fileName, todayDate)
-        #ExcelfileType3.getStartData(path, fileName, wbFailedListExcel)
+        ExcelfileType3.getStartData(path, fileName, wbFailedListExcel)
 
     elif '1111JISGUNSAN'+todayDate in fileName :
         AddFailedData.addFailedDataStart(path, fileName, todayDate)
-        #ExcelfileType3.getStartData(path, fileName, wbFailedListExcel)
+        ExcelfileType3.getStartData(path, fileName, wbFailedListExcel)
 
     else :
         print('파일 분류 에러 : %s' %fileName)

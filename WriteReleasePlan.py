@@ -15,7 +15,8 @@ import CheckWorkDays
 
 
 def startWriteCell(filePath, rowFr, rowTo, fixColumn, columnFr, columnTo, fixRow, findValue1, findValue2, orderCount,
-                   orderNumber, semiOrderNumber, wbFailedListExcel, fileName) :
+                   orderNumber, semiOrderNumber, wbFailedListExcel, fileName,
+                   jisData=None, categoryData=None) :
     # findValue1 = 품명
     # findValue2 = 날짜
 
@@ -26,7 +27,6 @@ def startWriteCell(filePath, rowFr, rowTo, fixColumn, columnFr, columnTo, fixRow
     sheetName = sheetName.strip()
     print('sheeteName!! %s' % sheetName)
     # FailedFileName 추출 END
-
     wb = load_workbook(filePath)
     ws = wb.active
     cordinate = Coordinate() #001
@@ -54,12 +54,16 @@ def startWriteCell(filePath, rowFr, rowTo, fixColumn, columnFr, columnTo, fixRow
         wsFailedListExcel.cell(1, 3, '품명')
         wsFailedListExcel.cell(1, 4, '날짜')
         wsFailedListExcel.cell(1, 5, '발주수량')
+        wsFailedListExcel.cell(1, 6, 'JIS')
+        wsFailedListExcel.cell(1, 7, 'Category')
         tempList = []
         tempList.append(orderNumber)
         tempList.append(semiOrderNumber)
         tempList.append(findValue1)
         tempList.append(findValue2)
         tempList.append(orderCount)
+        tempList.append(jisData)
+        tempList.append(categoryData)
         wsFailedListExcel.append(tempList)
 
         # sheetName으로 해당 시트에 기록 END

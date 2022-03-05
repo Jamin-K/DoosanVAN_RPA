@@ -6,6 +6,9 @@ import pandas as pd
 import datetime
 
 def addFailedDataStart(path, todayFileName, todayDate) :
+    # input - path : C:/Users/KJM/Desktop/DSVAN20220214
+    # input - todayFileName : doosan1100CKD20220214.xlsx
+    # input - todayDate : 20220214
     print('-----------------------------------------------------')
     # 변수 선언 START
     print(path)
@@ -49,9 +52,14 @@ def addFailedDataStart(path, todayFileName, todayDate) :
     if(failedExcelDateFrame.empty != True):
         print('%s 시트 데이터 존재' %sheetName)
         # 실패 데이터와 수행 예정 데이터 합치기 START
-        presentExcelDataFrame = pd.read_excel(presentPath + '/수행예정데이터/' + sheetName + '.xlsx')
-        presentExcelDataFrame.drop(presentExcelDataFrame.columns[0], axis=1, inplace=True) # dataframe 인덱스 행 제거
+        # presentExcelDataFrame = pd.read_excel(presentPath + '/수행예정데이터/' + sheetName + '.xlsx')
+        # presentExcelDataFrame.drop(presentExcelDataFrame.columns[0], axis=1, inplace=True) # dataframe 인덱스 행 제거
+        presentExcelDataFrame = appendToExcel(presentPath + '/수행예정데이터/' + sheetName + '.xlsx',
+                                              failedExcelDateFrame, sheetName)
+        print('---------------------------------------------------------------')
+        print('---------------------------------------------------------------')
         print(presentExcelDataFrame)
+
 
         # 실패 데이터와 수행 예정 데이터 합치기 END
     else :
@@ -59,6 +67,8 @@ def addFailedDataStart(path, todayFileName, todayDate) :
 
     print('-----------------------------------------------------')
 
+    # 실패데이터 포맷
+    # 발주번호, 발주항번, 품명, 날짜, 발주수량, JIS, Category
 
 def appendToExcel(path, df, sheetName):
     # 함수개요 : dataframe과 엑셀 파일의 데이터를 append 하여 결과를 엑셀로 저장
@@ -66,8 +76,54 @@ def appendToExcel(path, df, sheetName):
     # input - df : path의 엑셀 파일과 더할 dataframe
     # input - sheetName : 데이터가 있는 시트 이름
     # 함수동작 : path의 데이터를 dataframe으로 받아와서 합칠 df 를 concat 하여 엑셀파일에 다시 저장
+
+    # 시트이름에 따라 필요없는 컬럼 Drop 하고 열 순서 변경하는 로직 START
+    if(sheetName == '1000DirINCHEON' or sheetName == '1100CKD' or sheetName == '1130INCHEON' or sheetName == '1000INCHEON') :
+        df.rename(columns={'품명' : '품번',
+                           '발주수량' : '납품잔량',
+                           '날짜' : '납기일자'}, inplace=True)
+        df.drop(df.columns[6], axis=1, inplace=True)
+        df = df[['JIS', '발주번호', '발주항번', '품번', '납품잔량', '납기일자']]
+        print('컬럼 리스트')
+        print(list(df.columns))
+        print('fileType1 작업 수행')
+    elif(sheetName == '6000ANSAN') :
+        df.rename(columns={'품명': '품번',
+                           '발주수량': '납품잔량',
+                           '날짜': '납기일자'}, inplace=True)
+        df.drop(df.columns[6], axis=1, inplace=True)
+        df.drop(df.columns[5], axis=1, inplace=True)
+        df = df[['품번', '납품잔량', '납기일자', '발주번호', '발주항번']]
+        print('컬럼 리스트')
+        print(list(df.columns))
+        print('fileType2 작업 수행')
+    elif(sheetName == '1000JISINCHEON' or sheetName == '1111JISGUNSAN') :
+        df.rename(columns={'품명': '품번',
+                           '발주수량': '요청수량',
+                           '날짜': '납기일(Actual)'}, inplace=True)
+        df.drop(df.columns[5], axis=1, inplace=True)
+        df = df[['발주번호', '발주항번', '품번', 'Category', '납기일(Actual)', '요청수량']]
+        print('컬럼 리스트')
+        print(list(df.columns))
+        print('fileType3 작업 수행')
+    else :
+        print('sheetName Error!! : %s' %sheetName)
+    # 시트이름에 따라 필요없는 컬럼 Drop 하고 열 순서 변경하는 로직 END
+
+    # 데이터프레임 합치기 START
     tempDataFrame = pd.read_excel(path)
     tempDataFrame.drop(tempDataFrame.columns[0], axis=1, inplace=True)
+    tempDataFrame = pd.concat([tempDataFrame, df], axis=0, ignore_index=True)
+    # 데이터프레임 합치기 END
+
+    print('appendToExcel function call!!')
+    # print('-----------------------------------------------------')
+
+    # print(tempDataFrame)
+
+    return tempDataFrame
+
+
 
 
 
