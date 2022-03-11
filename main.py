@@ -10,9 +10,8 @@
 # 1000JISINCHEON  -> 인천
 # 1111JISGUNSAN   -> 군산
 # 값을 못 찾아서 Excel Write 실패 시 실패 데이터를 특정 Excel 파일에 모아놓아야함.
-# 1. 그날 실패한 데이터를 엑셀 파일별로 엑셀을 만들어 보관
-# 2. 다음 날 실행될때 동일 엑셀 파일까치 합침(실패한 데이터가 그 날 수행될 데이터와 합쳐짐)
-# 3. 그 파일을 수행시킴
+# 필요 로직 : 전날 입력한 출고계획과 오늘 입력한 출고계획 누적 시키기
+# 기존 로직대로 수행 후 마지막에 전날 출고계획과 오늘자 출고계획을 탐색하여 더함.
 
 
 
@@ -26,6 +25,7 @@ import CreatedFailedExcelFile
 import time
 from openpyxl import load_workbook
 from tkinter import *
+import PresentDataProcessing
 
 # GUI 생성 START
 # root = Tk()
@@ -134,32 +134,40 @@ wbFailedListExcel = load_workbook(path + '/FailedData/' + failedFileName)
 print(file_list)
 
 # 파일 이름에 따른 엑셀 데이터 추출 함수 호출 START
+# 아래에 수행예정 데이터 전처리 실시
 for fileName in file_list :
     if '1000DirINCHEON'+todayDate in fileName :
+        PresentDataProcessing.startProcessing(fileName, path)
         AddFailedData.addFailedDataStart(path, fileName, todayDate)
         ExcelfileType1.getStartData(path, fileName, wbFailedListExcel)
 
     elif '1000INCHEON'+todayDate in fileName :
+        PresentDataProcessing.startProcessing(fileName, path)
         AddFailedData.addFailedDataStart(path, fileName, todayDate)
         ExcelfileType1.getStartData(path, fileName, wbFailedListExcel)
 
     elif '1100CKD'+todayDate in fileName :
+        PresentDataProcessing.startProcessing(fileName, path)
         AddFailedData.addFailedDataStart(path, fileName, todayDate)
         ExcelfileType1.getStartData(path, fileName, wbFailedListExcel)
 
     elif '1130INCHEON'+todayDate in fileName :
+        PresentDataProcessing.startProcessing(fileName, path)
         AddFailedData.addFailedDataStart(path, fileName, todayDate)
         ExcelfileType1.getStartData(path, fileName, wbFailedListExcel)
 
     elif '6000ANSAN'+todayDate in fileName :
+        PresentDataProcessing.startProcessing(fileName, path)
         AddFailedData.addFailedDataStart(path, fileName, todayDate)
         ExcelfileType2.getStartData(path, fileName, wbFailedListExcel)
 
     elif '1000JISINCHEON'+todayDate in fileName :
+        PresentDataProcessing.startProcessing(fileName, path)
         AddFailedData.addFailedDataStart(path, fileName, todayDate)
         ExcelfileType3.getStartData(path, fileName, wbFailedListExcel)
 
     elif '1111JISGUNSAN'+todayDate in fileName :
+        PresentDataProcessing.startProcessing(fileName, path)
         AddFailedData.addFailedDataStart(path, fileName, todayDate)
         ExcelfileType3.getStartData(path, fileName, wbFailedListExcel)
 

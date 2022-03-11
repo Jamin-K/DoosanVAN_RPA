@@ -5,14 +5,11 @@
 #       2022.02.03 김재민 : 품번, 납기일 전역변수 추가 및 납기일 Split #002
 #       2022.02.04 김재민 : startWriteCell() 함수 호출을 위한 변수선언 및 함수 호출 #003
 #       2022.02.13 김재민 : 데이터가 1개일떄, 2개일때 함수 call 로직 추가
-#       2022.03.04 김재민 : VAN에서 추출한 DataFrame을 별도의 엑셀로 저장 로직 추가 #004
 
 import datetime
 import pandas as pd
-import numpy as np
-import openpyxl
 import WriteReleasePlan
-from openpyxl import load_workbook
+
 
 # 변수선언 START
 #todayDate = datetime.datetime.now().strftime('%Y%m%d')
@@ -46,20 +43,12 @@ def getStartData(path, fileName, wbFailedListExcel) :
     # input - fileName : 1000INCHOEN.xlsx
     # input - wbFailedListExcel : load_workbook(실패한 데이터를 작성할 엑셀)
 
-    # 전날 실패데이터 경로 추출 START #004
-    path = path[0:path.find('DSVAN' + todayDate) + 5]  #004 ----> 날짜 데이터를 더해서 사용
-    # 전날 실패데이터 경로 추출 END
-
     # excelDataFrame = pd.read_excel(path+'/'+fileName, usecols=[10, 16, 17, 19, 31, 38],
     #                                dtype={'발주번호': str,
     #                                       '발주항번': str})
 
-    converExcelDataFrame = pd.read_excel(path+todayDate+'/'+fileName, usecols=[10, 16, 17, 19, 31, 38],
-                                         dtype={'발주번호': str,
-                                                '발주항번': str})  # 004
     if '1000INCHEON' in fileName :
         print('1000INCHEON 파일 시작')
-        converExcelDataFrame.to_excel(fileDirPath + '/수행예정데이터/1000INCHEON.xlsx') #004
         excelDataFrame = pd.read_excel(fileDirPath + '/수행예정데이터/1000INCHEON.xlsx',
                                        dtype={'발주번호': str,
                                               '발주항번': str})
@@ -68,7 +57,6 @@ def getStartData(path, fileName, wbFailedListExcel) :
         rowTo = 50
     elif '1000DirINCHEON' in fileName : # 한양정밀
         print('1000DirINCHOEN 파일 시작')
-        converExcelDataFrame.to_excel(fileDirPath + '/수행예정데이터/1000DirINCHEON.xlsx') #004
         excelDataFrame = pd.read_excel(fileDirPath + '/수행예정데이터/1000DirINCHEON.xlsx',
                                        dtype={'발주번호': str,
                                               '발주항번': str})
@@ -77,7 +65,6 @@ def getStartData(path, fileName, wbFailedListExcel) :
         rowTo = 7
     elif '1100CKD' in fileName :
         print('1100CKD 파일 시작')
-        converExcelDataFrame.to_excel(fileDirPath + '/수행예정데이터/1100CKD.xlsx') #004
         excelDataFrame = pd.read_excel(fileDirPath + '/수행예정데이터/1100CKD.xlsx',
                                        dtype={'발주번호': str,
                                               '발주항번': str})
@@ -86,7 +73,6 @@ def getStartData(path, fileName, wbFailedListExcel) :
         rowTo = 11
     elif '1130INCHEON' in fileName :
         print('1130INCHOEN 파일 시작')
-        converExcelDataFrame.to_excel(fileDirPath + '/수행예정데이터/1130INCHEON.xlsx') #004
         excelDataFrame = pd.read_excel(fileDirPath + '/수행예정데이터/1130INCHEON.xlsx',
                                        dtype={'발주번호': str,
                                               '발주항번': str})
@@ -205,7 +191,8 @@ def getStartData(path, fileName, wbFailedListExcel) :
                                                 , semiOrderNumber, wbFailedListExcel, fileName, jisData='N')  # 003
         else:
             # 다른품번
-            orderCount = excelDataFrame.iloc[0, 3]
+            #orderCount = excelDataFrame.iloc[0, 3]
+            orderCount = excelDataFrame.iloc[0, 4]
             print('납품수량 합계 : %d' % orderCount)
             print('발주번호 : %s' % excelDataFrame.iloc[0, 1])
             print('발주항번 : %s' % excelDataFrame.iloc[0, 2])
@@ -222,7 +209,8 @@ def getStartData(path, fileName, wbFailedListExcel) :
                                             fixRow, itemNumber, releaseDate, orderCount, orderNumber
                                             , semiOrderNumber, wbFailedListExcel, fileName, jisData='N')  # 003
             print('-----------------------------------------------------')
-            orderCount = excelDataFrame.iloc[1, 3]
+            #orderCount = excelDataFrame.iloc[1, 3]
+            orderCount = excelDataFrame.iloc[1, 4]
             print('납품수량 합계 : %d' % orderCount)
             print('발주번호 : %s' % excelDataFrame.iloc[1, 1])
             print('발주항번 : %s' % excelDataFrame.iloc[1, 2])

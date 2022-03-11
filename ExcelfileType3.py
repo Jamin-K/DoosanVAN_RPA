@@ -5,12 +5,10 @@
 #       2022.02.03 김재민 : 품번, 납기일 전역변수 추가 및 납기일 Split #002
 #       2022.02.04 김재민 : startWriteCell() 함수 호출을 위한 변수선언 및 함수 호출 #003
 #       2022.02.13 김재민 : 데이터가 1개일때, 2개일때 함수 call 로직 추가
-#       2022.03.04 김재민 : VAN에서 추출한 DataFrame을 별도의 엑셀로 저장 로직 추가 #004
 
 import pandas as pd
 import numpy as np
 import WriteReleasePlan
-import openpyxl
 import datetime
 
 # 변수선언 START
@@ -46,18 +44,10 @@ def getStartData(path, fileName, wbFailedListExcel):
     # input - fileName : 1000INCHOEN.xlsx
     # input - wbFailedListExcel : load_workbook(실패한 데이터를 작성할 엑셀)
 
-    # 가공 데이터를 담기 위한 경로 추출 START #004
-    path = path[0:path.find('DSVAN' + todayDate) + 5]  #004 ----> 날짜 데이터를 더해서 사용
-    # 가공 데이터를 담기 위한 경로 추출 END #004
-
-    converExcelDataFrame = pd.read_excel(path+todayDate+'/'+fileName, usecols=[6, 9, 15, 29, 33, 8],
-                                         dtype={'발주번호': str,
-                                                '발주항번': str})  # 004
 
     # 탐색 범위 선언 START
     if '1000JISINCHEON' in fileName : #003
         print('1000JISINCHOEN 파일 시작')
-        converExcelDataFrame.to_excel(fileDirPath + '/수행예정데이터/1000JISINCHEON.xlsx') #004
         excelDataFrame = pd.read_excel(fileDirPath + '/수행예정데이터/1000JISINCHEON.xlsx',
                                        dtype={'발주번호': str,
                                               '발주항번': str})
@@ -66,7 +56,6 @@ def getStartData(path, fileName, wbFailedListExcel):
         rowTo = 50
     elif '1111JISGUNSAN' in fileName : #003
         print('1111JISGUNSAN 파일 시작')
-        converExcelDataFrame.to_excel(fileDirPath + '/수행예정데이터/1111JISGUNSAN.xlsx') #004
         excelDataFrame = pd.read_excel(fileDirPath + '/수행예정데이터/1111JISGUNSAN.xlsx',
                                        dtype={'발주번호': str,
                                               '발주항번': str})

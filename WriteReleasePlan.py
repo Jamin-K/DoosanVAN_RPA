@@ -7,10 +7,7 @@
 
 
 from openpyxl import load_workbook
-import openpyxl
-import findValueLocation
 from findValueLocation import Coordinate
-import pandas as pd
 import CheckWorkDays
 
 
