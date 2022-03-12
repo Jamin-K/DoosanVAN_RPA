@@ -9,11 +9,9 @@
 # 6000ANSAN       -> ?
 # 1000JISINCHEON  -> 인천
 # 1111JISGUNSAN   -> 군산
-# 값을 못 찾아서 Excel Write 실패 시 실패 데이터를 특정 Excel 파일에 모아놓아야함.
-# 필요 로직 : 전날 입력한 출고계획과 오늘 입력한 출고계획 누적 시키기
-# 기존 로직대로 수행 후 마지막에 전날 출고계획과 오늘자 출고계획을 탐색하여 더함.
-
-
+# 보완 할 예정인 로직 : D-1 ReleaseData와 D-day ReleaseData 합칠때 수행시간 이슈 존재
+#                   -> D-1의 WorkBook과 WorkSheet를 main에서부터 가져감으로써 호출 시간 최소화
+#                   -> 위의 이슈 해결 후 D-day ReleaseData Wb와 ws도 main으로부터 가져감
 
 import os
 import datetime
@@ -26,6 +24,7 @@ import time
 from openpyxl import load_workbook
 from tkinter import *
 import PresentDataProcessing
+
 
 # GUI 생성 START
 # root = Tk()
@@ -116,7 +115,8 @@ todayDate = '20220214' #TestCode
 # 오늘 날짜 추출 END
 
 # 폴더 파일 리스트 추출 START
-path = 'C:/Users/KJM/Desktop/DSVAN'+todayDate
+defaultPath = 'C:/Users/KJM/Desktop/DSVAN'
+path = defaultPath+todayDate
 file_list = os.listdir(path)
 #print(file_list)
 # 폴더 파일 리스트 추출 END
@@ -133,12 +133,15 @@ wbFailedListExcel = load_workbook(path + '/FailedData/' + failedFileName)
 # 출고계획 엑셀 파일 set 함수 호출 END
 print(file_list)
 
+# 여기서 Present WorkBook과 WorkSheet 선언
+
 # 파일 이름에 따른 엑셀 데이터 추출 함수 호출 START
 # 아래에 수행예정 데이터 전처리 실시
 for fileName in file_list :
     if '1000DirINCHEON'+todayDate in fileName :
         PresentDataProcessing.startProcessing(fileName, path)
         AddFailedData.addFailedDataStart(path, fileName, todayDate)
+        # 여기서 Past WorkBook과 WorkSheet 선언
         ExcelfileType1.getStartData(path, fileName, wbFailedListExcel)
 
     elif '1000INCHEON'+todayDate in fileName :
