@@ -9,9 +9,6 @@
 # 6000ANSAN       -> ?
 # 1000JISINCHEON  -> 인천
 # 1111JISGUNSAN   -> 군산
-# 보완 할 예정인 로직 : D-1 ReleaseData와 D-day ReleaseData 합칠때 수행시간 이슈 존재
-#                   -> D-1의 WorkBook과 WorkSheet를 main에서부터 가져감으로써 호출 시간 최소화
-#                   -> 위의 이슈 해결 후 D-day ReleaseData Wb와 ws도 main으로부터 가져감
 
 import os
 import datetime
@@ -114,6 +111,12 @@ print('수행날짜 : %s' %todayDate)
 todayDate = '20220214' #TestCode
 # 오늘 날짜 추출 END
 
+# D-1 날짜 추출 START
+tempDate = datetime.datetime.strptime(todayDate, '%Y%m%d')
+tempDate = tempDate + datetime.timedelta(days=-1)
+oneDaysAgoDate = datetime.datetime.strftime(tempDate, '%Y%m%d')
+# D-1 날짜 추출 END
+
 # 폴더 파일 리스트 추출 START
 defaultPath = 'C:/Users/KJM/Desktop/DSVAN'
 path = defaultPath+todayDate
@@ -135,49 +138,57 @@ print(file_list)
 
 # 여기서 Present WorkBook과 WorkSheet 선언
 
+# PastWorkBook, WorkSheet START
+pastWb = load_workbook(defaultPath+oneDaysAgoDate+'/완료데이터/ReleasePlan.xlsx')
+pastWs = pastWb.active
+# PastWorkBook, WorkSheet END
+
 # 파일 이름에 따른 엑셀 데이터 추출 함수 호출 START
 # 아래에 수행예정 데이터 전처리 실시
 for fileName in file_list :
     if '1000DirINCHEON'+todayDate in fileName :
         PresentDataProcessing.startProcessing(fileName, path)
         AddFailedData.addFailedDataStart(path, fileName, todayDate)
-        # 여기서 Past WorkBook과 WorkSheet 선언
-        ExcelfileType1.getStartData(path, fileName, wbFailedListExcel)
+        ExcelfileType1.getStartData(path, fileName, wbFailedListExcel, pastWb, pastWs)
 
     elif '1000INCHEON'+todayDate in fileName :
         PresentDataProcessing.startProcessing(fileName, path)
         AddFailedData.addFailedDataStart(path, fileName, todayDate)
-        ExcelfileType1.getStartData(path, fileName, wbFailedListExcel)
+        ExcelfileType1.getStartData(path, fileName, wbFailedListExcel, pastWb, pastWs)
 
     elif '1100CKD'+todayDate in fileName :
         PresentDataProcessing.startProcessing(fileName, path)
         AddFailedData.addFailedDataStart(path, fileName, todayDate)
-        ExcelfileType1.getStartData(path, fileName, wbFailedListExcel)
+        ExcelfileType1.getStartData(path, fileName, wbFailedListExcel, pastWb, pastWs)
 
     elif '1130INCHEON'+todayDate in fileName :
         PresentDataProcessing.startProcessing(fileName, path)
         AddFailedData.addFailedDataStart(path, fileName, todayDate)
-        ExcelfileType1.getStartData(path, fileName, wbFailedListExcel)
+        ExcelfileType1.getStartData(path, fileName, wbFailedListExcel, pastWb, pastWs)
 
     elif '6000ANSAN'+todayDate in fileName :
         PresentDataProcessing.startProcessing(fileName, path)
         AddFailedData.addFailedDataStart(path, fileName, todayDate)
-        ExcelfileType2.getStartData(path, fileName, wbFailedListExcel)
+        ExcelfileType2.getStartData(path, fileName, wbFailedListExcel, pastWb, pastWs)
 
     elif '1000JISINCHEON'+todayDate in fileName :
         PresentDataProcessing.startProcessing(fileName, path)
         AddFailedData.addFailedDataStart(path, fileName, todayDate)
-        ExcelfileType3.getStartData(path, fileName, wbFailedListExcel)
+        ExcelfileType3.getStartData(path, fileName, wbFailedListExcel, pastWb, pastWs)
 
     elif '1111JISGUNSAN'+todayDate in fileName :
         PresentDataProcessing.startProcessing(fileName, path)
         AddFailedData.addFailedDataStart(path, fileName, todayDate)
-        ExcelfileType3.getStartData(path, fileName, wbFailedListExcel)
+        ExcelfileType3.getStartData(path, fileName, wbFailedListExcel, pastWb, pastWs)
 
     else :
         print('파일 분류 에러 : %s' %fileName)
 
 # 파일 이름에 따른 엑셀 데이터 추출 함수 호출 END
 
+# workbook, worksheet 저장
 wbFailedListExcel.save(path + '/FailedData/' + failedFileName)
+wbFailedListExcel.close()
+pastWb.save(defaultPath+oneDaysAgoDate+'/완료데이터/ReleasePlan.xlsx')
+pastWb.close()
 print('코드 수행 시간 :', time.time() - startTime)

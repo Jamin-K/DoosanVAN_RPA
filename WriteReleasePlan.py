@@ -16,16 +16,16 @@ import numpy as np
 
 
 def startWriteCell(filePath, rowFr, rowTo, fixColumn, columnFr, columnTo, fixRow, findValue1, findValue2, orderCount,
-                   orderNumber, semiOrderNumber, wbFailedListExcel, fileName,
+                   orderNumber, semiOrderNumber, wbFailedListExcel, fileName, pastReleaseWorkBook, pastReleaseWorkSheet,
                    jisData=None, categoryData=None) :
     # findValue1 = 품명
     # findValue2 = 날짜
 
     # D-1 날짜 구하기 START #004
     #tempDate = datetime.datetime.now().strftime('%Y%m%d')
-    tempDate = datetime.datetime.now() + datetime.timedelta(days=-1)
-    oneDaysAgoDate = datetime.datetime.strftime(tempDate, '%Y%m%d')
-    pastfilePath = 'C:/Users/KJM/Desktop/DSVAN20220213/완료데이터/' + 'ReleasePlan.xlsx' #testCode
+    # tempDate = datetime.datetime.now() + datetime.timedelta(days=-1)
+    # oneDaysAgoDate = datetime.datetime.strftime(tempDate, '%Y%m%d')
+    # pastfilePath = 'C:/Users/KJM/Desktop/DSVAN20220213/완료데이터/' + 'ReleasePlan.xlsx' #testCode
     # D-1 날짜 구하기 END
 
     # FailedFileName 추출 START #003
@@ -55,8 +55,10 @@ def startWriteCell(filePath, rowFr, rowTo, fixColumn, columnFr, columnTo, fixRow
         #ws.cell(cordinate.getRow(), cordinate.getCol(), orderCount) #002
 
         # D-1 ReleaseData 파일 열기 START #004
-        pastWb = load_workbook(pastfilePath)
-        pastWs = pastWb.active
+        # pastWb = load_workbook(pastfilePath)
+        # pastWs = pastWb.active
+        pastWb = pastReleaseWorkBook
+        pastWs = pastReleaseWorkSheet
         if (pastWs.cell(cordinate.getRow(), cordinate.getCol() + 1).value == None):
             ws.cell(cordinate.getRow(), cordinate.getCol(), orderCount)  # 002
         else:
@@ -96,7 +98,7 @@ def startWriteCell(filePath, rowFr, rowTo, fixColumn, columnFr, columnTo, fixRow
 
 
     #wb.save(filePath) #002
-    wb.save('C:/users/KJM/Desktop/DSVAN20220214/완료데이터/ReleasePlan.xlsx') #testCode
-    wb.close()
+    # wb.save('C:/users/KJM/Desktop/DSVAN20220214/완료데이터/ReleasePlan.xlsx') #testCode
+    # wb.close()
 
 
