@@ -98,7 +98,7 @@ def startWriteCell(filePath, rowFr, rowTo, fixColumn, columnFr, columnTo, fixRow
 
 
     #wb.save(filePath) #002
-    # wb.save('C:/users/KJM/Desktop/DSVAN20220214/완료데이터/ReleasePlan.xlsx') #testCode
-    # wb.close()
+    wb.save('C:/users/KJM/Desktop/DSVAN20220214/완료데이터/ReleasePlan.xlsx') #testCode
+    wb.close()
 
 

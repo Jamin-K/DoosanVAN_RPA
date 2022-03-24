@@ -5,29 +5,13 @@
 #       2022.02.03 김재민 : 품번, 납기일 전역변수 추가 및 납기일 Split #002
 #       2022.02.04 김재민 : startWriteCell() 함수 호출을 위한 변수선언 및 함수 호출 #003
 #       2022.02.13 김재민 : 데이터가 1개일떄, 2개일때 함수 call 로직 추가
+#       2022.03.24 김재민 : 납품처 탐색 범위 하드코딩에서 다이나믹으로 변경 #004
 
 import pandas as pd
 import WriteReleasePlan
-import datetime
+from openpyxl import load_workbook
 
-# 변수선언 START
-todayDate = datetime.datetime.now().strftime('%Y%m%d')
-todayDate = '20220214' # TestCode
-itemNumber = None # 품번 #002
-releaseDate = None # 납기일 #002
-rowFr = None
-rowTo = None
-fixColumn = 3
-columnFr = 6
-columnTo = 40
-fixRow = 4
-#fileDirPath = 'C:/Users/KJM/Desktop/DSVAN'+todayDate+'/'
-#releaseFileName = filrDirPath + 'doosanReleasePlan' + todayDate + '.xlsx'
-fileDirPath = 'C:/Users/KJM/Desktop/DSVAN20220214/' #TestCode
-releaseFileName = fileDirPath + 'doosanReleasePlan20220214.xlsx' #TestCode
-orderNumber = None
-semiOrderNumber = None
-# 변수선언 END
+
 
 # DataFrame 기본 옵션 세팅 START
 pd.set_option('display.max_seq_items', None)
@@ -35,26 +19,70 @@ pd.set_option('display.max_rows', None)
 pd.set_option('display.max_columns', None)
 # DataFrame 기본 옵션 세팅 END
 
-def getStartData(path, fileName, wbFailedListExcel, pastReleaseWorkBook, pastReleaseWorkSheet) :
+def getStartData(path, fileName, wbFailedListExcel, pastReleaseWorkBook, pastReleaseWorkSheet, todayDate) :
     # input - path : 'C:/Users/KJM/Desktop/DSVAN'+todayDate
     # input - fileName : 1000INCHOEN.xlsx
     # input - wbFailedListExcel : load_workbook(실패한 데이터를 작성할 엑셀)
 
+    # 변수선언 START
+    itemNumber = None  # 품번 #002
+    releaseDate = None  # 납기일 #002
+    rowFr = None
+    rowTo = None
+    fixColumn = 3
+    columnFr = 6
+    columnTo = 40
+    fixRow = 4
+    fileDirPath = 'C:/Users/KJM/Desktop/DSVAN'+todayDate+'/'
+    releaseFileName = fileDirPath + 'doosanReleasePlan' + todayDate + '.xlsx'
+    # fileDirPath = 'C:/Users/KJM/Desktop/DSVAN20220214/'  # TestCode
+    # releaseFileName = fileDirPath + 'doosanReleasePlan20220214.xlsx'  # TestCode
+    orderNumber = None
+    semiOrderNumber = None
+    # 변수선언 END
+
     pastWb = pastReleaseWorkBook
     pastWs = pastReleaseWorkSheet
+    releaseWorkBook = load_workbook(fileDirPath + 'doosanReleasePlan' + todayDate + '.xlsx')
+    releaseWorkSheet = releaseWorkBook.active
 
     if '6000ANSAN' in fileName :
         print('6000ANSAN 파일 시작')
         excelDataFrame = pd.read_excel(fileDirPath + '/수행예정데이터/6000ANSAN.xlsx',
                                        dtype={'발주번호': str,
                                               '발주항번': str})
+
+        # 004 START
+        endOfRow = len(releaseWorkSheet['B'])
+        gunsanRowCount = 0 # A/S 항목의 뚜렷한 식별자가 없기 때문에 그 전 발주처인 군산공장을 기준으로 계산
+        gunsanEndRow = 0
+        gunsanStartRow = 0
+
+        for i in range(1, endOfRow) :
+            if(releaseWorkSheet.cell(i, 2).value == '군산공장' and gunsanStartRow == 0) :
+                gunsanStartRow = i
+                continue
+
+            if(releaseWorkSheet.cell(i, 2).value == '군산공장' and gunsanStartRow != 0) :
+                gunsanRowCount = gunsanRowCount + 1
+                continue
+            i = i + 1
+
+        gunsanEndRow = gunsanStartRow + gunsanRowCount + 1
+        rowFr = gunsanEndRow + 3
+        rowTo = endOfRow
+
+        # 004 END
         excelDataFrame.drop(excelDataFrame.columns[0], axis=1, inplace=True)
-        rowFr = 61
-        rowTo = 133
+        # rowFr = 61
+        # rowTo = 133
     else :
         print('파일 분류 에러 : ExcelfileType2')
 
+    releaseWorkBook.close()
     print('START : %s' %fileName)
+    print('rowFr : %d' % rowFr)
+    print('rowTo : %d' % rowTo)
     print('▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼')
     # excelDataFrame = pd.read_excel(fileName, usecols=[4, 9, 12, 45, 46],
     #                                dtype={'발주번호':str,

@@ -21,7 +21,10 @@ import time
 from openpyxl import load_workbook
 from tkinter import *
 import PresentDataProcessing
-
+# RPA에서 수행해야 할 내용
+# 1. 각 폴더 생성
+# 2. d-1일자의 releaseplan 을 복사
+# 3, d-day dir 폴더에 복사한 releaseplan을 완료데이터 폴더에 복사
 
 # GUI 생성 START
 # root = Tk()
@@ -149,37 +152,37 @@ for fileName in file_list :
     if '1000DirINCHEON'+todayDate in fileName :
         PresentDataProcessing.startProcessing(fileName, path)
         AddFailedData.addFailedDataStart(path, fileName, todayDate)
-        ExcelfileType1.getStartData(path, fileName, wbFailedListExcel, pastWb, pastWs)
+        ExcelfileType1.getStartData(path, fileName, wbFailedListExcel, pastWb, pastWs, todayDate)
 
     elif '1000INCHEON'+todayDate in fileName :
         PresentDataProcessing.startProcessing(fileName, path)
         AddFailedData.addFailedDataStart(path, fileName, todayDate)
-        ExcelfileType1.getStartData(path, fileName, wbFailedListExcel, pastWb, pastWs)
+        ExcelfileType1.getStartData(path, fileName, wbFailedListExcel, pastWb, pastWs, todayDate)
 
     elif '1100CKD'+todayDate in fileName :
         PresentDataProcessing.startProcessing(fileName, path)
         AddFailedData.addFailedDataStart(path, fileName, todayDate)
-        ExcelfileType1.getStartData(path, fileName, wbFailedListExcel, pastWb, pastWs)
+        ExcelfileType1.getStartData(path, fileName, wbFailedListExcel, pastWb, pastWs, todayDate)
 
     elif '1130INCHEON'+todayDate in fileName :
         PresentDataProcessing.startProcessing(fileName, path)
         AddFailedData.addFailedDataStart(path, fileName, todayDate)
-        ExcelfileType1.getStartData(path, fileName, wbFailedListExcel, pastWb, pastWs)
+        ExcelfileType1.getStartData(path, fileName, wbFailedListExcel, pastWb, pastWs, todayDate)
 
     elif '6000ANSAN'+todayDate in fileName :
         PresentDataProcessing.startProcessing(fileName, path)
         AddFailedData.addFailedDataStart(path, fileName, todayDate)
-        ExcelfileType2.getStartData(path, fileName, wbFailedListExcel, pastWb, pastWs)
+        ExcelfileType2.getStartData(path, fileName, wbFailedListExcel, pastWb, pastWs, todayDate)
 
     elif '1000JISINCHEON'+todayDate in fileName :
         PresentDataProcessing.startProcessing(fileName, path)
         AddFailedData.addFailedDataStart(path, fileName, todayDate)
-        ExcelfileType3.getStartData(path, fileName, wbFailedListExcel, pastWb, pastWs)
+        ExcelfileType3.getStartData(path, fileName, wbFailedListExcel, pastWb, pastWs, todayDate)
 
     elif '1111JISGUNSAN'+todayDate in fileName :
         PresentDataProcessing.startProcessing(fileName, path)
         AddFailedData.addFailedDataStart(path, fileName, todayDate)
-        ExcelfileType3.getStartData(path, fileName, wbFailedListExcel, pastWb, pastWs)
+        ExcelfileType3.getStartData(path, fileName, wbFailedListExcel, pastWb, pastWs, todayDate)
 
     else :
         print('파일 분류 에러 : %s' %fileName)
