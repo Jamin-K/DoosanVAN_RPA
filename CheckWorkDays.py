@@ -75,8 +75,9 @@ def checkHolidays(fullDate):     #fullDate는 yyyy/mm/dd형태
 
         # 주말 여부 탐색(납기일이 토,일,월이면 전주 금요일에 납기) START
         while(exitFlag == False) :
-            if (fulldt.weekday() == 5 or fulldt.weekday() == 6 or fulldt.weekday() == 0):
-                print('해당날짜(%s)는 토 or 일 or 월요일입니다. -1day 실시!!' %fulldt)
+            #if (fulldt.weekday() == 5 or fulldt.weekday() == 6 or fulldt.weekday() == 0):
+            if(fulldt.weekday() == 5 or fulldt.weekday() == 6):
+                print('해당날짜(%s)는 토 or 일요일입니다.. -1day 실시!!' %fulldt)
                 fulldt = fulldt + datetime.timedelta(days=-1)
                 if(checkWorkDay(workdayList, fulldt) == True) : #001
                     exitFlag = True

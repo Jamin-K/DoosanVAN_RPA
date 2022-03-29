@@ -36,8 +36,8 @@ def startWriteCell(filePath, rowFr, rowTo, fixColumn, columnFr, columnTo, fixRow
     print('sheeteName!! %s' % sheetName)
     # FailedFileName 추출 END
 
-    #wb = load_workbook(filePath)
-    wb = load_workbook('C:/users/KJM/Desktop/DSVAN20220214/완료데이터/ReleasePlan.xlsx') #testCode
+    wb = load_workbook(filePath)
+    #wb = load_workbook('C:/users/KJM/Desktop/DSVAN20220214/완료데이터/ReleasePlan.xlsx') #testCode
     ws = wb.active
     cordinate = Coordinate() #001
     itemNumber = findValue1
@@ -97,8 +97,8 @@ def startWriteCell(filePath, rowFr, rowTo, fixColumn, columnFr, columnTo, fixRow
         # sheetName으로 해당 시트에 기록 END
 
 
-    #wb.save(filePath) #002
-    wb.save('C:/users/KJM/Desktop/DSVAN20220214/완료데이터/ReleasePlan.xlsx') #testCode
+    wb.save(filePath) #002
+    #wb.save('C:/users/KJM/Desktop/DSVAN20220214/완료데이터/ReleasePlan.xlsx') #testCode
     wb.close()
 
 

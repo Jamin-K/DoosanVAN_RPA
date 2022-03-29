@@ -36,7 +36,8 @@ def getStartData(path, fileName, wbFailedListExcel, pastReleaseWorkBook, pastRel
     columnFr = 6
     columnTo = 40
     fileDirPath = 'C:/Users/KJM/Desktop/DSVAN'+todayDate+'/'
-    releaseFileName = fileDirPath + 'doosanReleasePlan' + todayDate + '.xlsx'
+    #releaseFileName = fileDirPath + 'doosanReleasePlan' + todayDate + '.xlsx'
+    releaseFileName = fileDirPath + '/완료데이터/ReleasePlan.xlsx'
     # fileDirPath = 'C:/Users/KJM/Desktop/DSVAN20220214/'  # TestCode
     # releaseFileName = fileDirPath + 'doosanReleasePlan20220214.xlsx'  # TestCode
     orderNumber = None

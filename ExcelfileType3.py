@@ -20,8 +20,6 @@ from openpyxl import load_workbook
 pd.set_option('display.max_seq_items', None)
 pd.set_option('display.max_rows', None)
 pd.set_option('display.max_columns', None)
-
-
 # DataFrame 기본 옵션 세팅 END
 
 def getStartData(path, fileName, wbFailedListExcel, pastReleaseWorkBook, pastReleaseWorkSheet, todayDate):
@@ -39,7 +37,8 @@ def getStartData(path, fileName, wbFailedListExcel, pastReleaseWorkBook, pastRel
     columnTo = 40  # 003
     fixRow = 4  # 003
     fileDirPath = 'C:/Users/KJM/Desktop/DSVAN'+todayDate+'/'
-    releaseFileName = fileDirPath + 'doosanReleasePlan' + todayDate + '.xlsx'
+    #releaseFileName = fileDirPath + 'doosanReleasePlan' + todayDate + '.xlsx'
+    releaseFileName = fileDirPath + '/완료데이터/ReleasePlan.xlsx'
     orderNumber = None
     semiOrderNumber = None
     categoryDate = None
