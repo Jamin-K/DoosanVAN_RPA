@@ -28,11 +28,7 @@ import PresentDataProcessing
 
 
 # 필요로직
-# 1. 현재 엑셀 데이터를 합칠때 첫번째 열의 데이터가 안합쳐짐
-# - 원인 : 수행예정데이터와 d-day의 releaseData 엑셀 표에서 데이터가 있는 값만 null 체크 후 더해서 가져오기 때문에
-# 첫번째 열은 못가져옴. 첫번째 열만 따로 처리 가능한 로직이 필요
-# 첫번째 열 뿐만 아니라 모든 열을 -1 만큼 옮긴 다음 옮기기 전 데이터를 지워야함.
-# - 원인 : 중복체크만 이루어짐
+# 1. 실패데이터에 대한 중복 체크 필요.(발주항번과 발주번호를 기준으로)
 
 # GUI 생성 START
 # root = Tk()
@@ -150,48 +146,43 @@ print(file_list)
 
 # 여기서 Present WorkBook과 WorkSheet 선언
 
-# PastWorkBook, WorkSheet START
-pastWb = load_workbook(defaultPath+oneDaysAgoDate+'/완료데이터/ReleasePlan.xlsx')
-pastWs = pastWb.active
-# PastWorkBook, WorkSheet END
-
 # 파일 이름에 따른 엑셀 데이터 추출 함수 호출 START
 # 아래에 수행예정 데이터 전처리 실시
 for fileName in file_list :
     if '1000DirINCHEON'+todayDate in fileName :
         PresentDataProcessing.startProcessing(fileName, path)
         AddFailedData.addFailedDataStart(path, fileName, todayDate)
-        ExcelfileType1.getStartData(path, fileName, wbFailedListExcel, pastWb, pastWs, todayDate)
+        ExcelfileType1.getStartData(path, fileName, wbFailedListExcel, todayDate)
 
     elif '1000INCHEON'+todayDate in fileName :
         PresentDataProcessing.startProcessing(fileName, path)
         AddFailedData.addFailedDataStart(path, fileName, todayDate)
-        ExcelfileType1.getStartData(path, fileName, wbFailedListExcel, pastWb, pastWs, todayDate)
+        ExcelfileType1.getStartData(path, fileName, wbFailedListExcel, todayDate)
 
     elif '1100CKD'+todayDate in fileName :
         PresentDataProcessing.startProcessing(fileName, path)
         AddFailedData.addFailedDataStart(path, fileName, todayDate)
-        ExcelfileType1.getStartData(path, fileName, wbFailedListExcel, pastWb, pastWs, todayDate)
+        ExcelfileType1.getStartData(path, fileName, wbFailedListExcel, todayDate)
 
     elif '1130INCHEON'+todayDate in fileName :
         PresentDataProcessing.startProcessing(fileName, path)
         AddFailedData.addFailedDataStart(path, fileName, todayDate)
-        ExcelfileType1.getStartData(path, fileName, wbFailedListExcel, pastWb, pastWs, todayDate)
+        ExcelfileType1.getStartData(path, fileName, wbFailedListExcel, todayDate)
 
     elif '6000ANSAN'+todayDate in fileName :
         PresentDataProcessing.startProcessing(fileName, path)
         AddFailedData.addFailedDataStart(path, fileName, todayDate)
-        ExcelfileType2.getStartData(path, fileName, wbFailedListExcel, pastWb, pastWs, todayDate)
+        ExcelfileType2.getStartData(path, fileName, wbFailedListExcel, todayDate)
 
     elif '1000JISINCHEON'+todayDate in fileName :
         PresentDataProcessing.startProcessing(fileName, path)
         AddFailedData.addFailedDataStart(path, fileName, todayDate)
-        ExcelfileType3.getStartData(path, fileName, wbFailedListExcel, pastWb, pastWs, todayDate)
+        ExcelfileType3.getStartData(path, fileName, wbFailedListExcel, todayDate)
 
     elif '1111JISGUNSAN'+todayDate in fileName :
         PresentDataProcessing.startProcessing(fileName, path)
         AddFailedData.addFailedDataStart(path, fileName, todayDate)
-        ExcelfileType3.getStartData(path, fileName, wbFailedListExcel, pastWb, pastWs, todayDate)
+        ExcelfileType3.getStartData(path, fileName, wbFailedListExcel, todayDate)
 
     else :
         print('파일 분류 에러 : %s' %fileName)
@@ -201,6 +192,4 @@ for fileName in file_list :
 # workbook, worksheet 저장
 wbFailedListExcel.save(path + '/FailedData/' + failedFileName)
 wbFailedListExcel.close()
-pastWb.save(defaultPath+oneDaysAgoDate+'/완료데이터/ReleasePlan.xlsx')
-pastWb.close()
 print('코드 수행 시간 :', time.time() - startTime)

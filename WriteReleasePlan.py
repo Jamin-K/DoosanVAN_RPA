@@ -4,8 +4,7 @@
 #       2022.02.19 김재민 : 클래스 생성, 함수 호출 및 getter 접근 #001
 #       2022.02.19 김재민 : 얻은 좌표에 Write OrderCount 및 엑셀 저장 #002
 #       2022.03.02 김재민 : ReleasePlan에 쓰기 실패한 데이터 리스트 기록 in writeFaieldlist.xlsx #003
-#       2022.03.12 김재민 : D-1 완료 데이터와 합쳐서 D-day ReleasePlan에 작성 #004
-#       2022.03.30 김재민 : D-1 ReleaseData 의 두번째 열을 D-day ReleaseData의 첫번째 열에 강제로 입력 #005
+#       2022.03.31 김재민 : D-1 완료 데이터와 합쳐서 D-day ReleasePlan에 작성 #004
 
 
 
@@ -17,8 +16,7 @@ import numpy as np
 
 
 def startWriteCell(filePath, rowFr, rowTo, fixColumn, columnFr, columnTo, fixRow, findValue1, findValue2, orderCount,
-                   orderNumber, semiOrderNumber, wbFailedListExcel, fileName, pastReleaseWorkBook, pastReleaseWorkSheet,
-                   pastRowFr, pastRowTo, jisData=None, categoryData=None) :
+                   orderNumber, semiOrderNumber, wbFailedListExcel, fileName, jisData=None, categoryData=None) :
     # findValue1 = 품명
     # findValue2 = 날짜
 
@@ -40,12 +38,8 @@ def startWriteCell(filePath, rowFr, rowTo, fixColumn, columnFr, columnTo, fixRow
     wb = load_workbook(filePath)
     #wb = load_workbook('C:/users/KJM/Desktop/DSVAN20220214/완료데이터/ReleasePlan.xlsx') #testCode
     ws = wb.active
-    pastWb = pastReleaseWorkBook
-    pastWs = pastReleaseWorkSheet
     cordinate = Coordinate() #001
     itemNumber = findValue1
-    pastItemNumber = None #005
-    pastOrderCount = None #005
 
     # 공휴일 및 주말 체크 함수 START
     findValue2 = CheckWorkDays.checkHolidays(findValue2)
@@ -53,42 +47,12 @@ def startWriteCell(filePath, rowFr, rowTo, fixColumn, columnFr, columnTo, fixRow
 
     releaseDate = findValue2 #yyyy/mm/dd 형태로 받아옴
 
-
-    # # 005 START
-    # pastRowIndex = 1
-    # for pastRowIndex in range(pastRowFr, pastRowTo):
-    #     print(pastWs.cell(pastRowIndex, columnFr).value)
-    #     if(pastWs.cell(pastRowIndex, columnFr+1).value != None):
-    #         pastItemNumber = pastWs.cell(pastRowIndex, 3).value
-    #         pastOrderCount = pastWs.cell(pastRowIndex, columnFr+1).value
-    #         print(pastItemNumber)
-    #         print(pastOrderCount)
-    #         pastRowIndex = pastRowIndex + 1
-    #     else:
-    #         pastRowIndex = pastRowIndex + 1
-    #         continue
-    #     #pastRowIndex = pastRowIndex + 1
-    #
-    #     presentRowIndex = 1
-    #     for presentRowIndex in range(rowFr, rowTo):
-    #         if(ws.cell(presentRowIndex, 3).value == pastItemNumber):
-    #             ws.cell(presentRowIndex, columnFr, pastOrderCount)
-    #             print('d-1 두번째 열과 d-day 첫번재 열 일치')
-    #             break
-    #         presentRowIndex = presentRowIndex + 1
-    #
-    # # 005 END
-
     cordinate.startFindValue(filePath, rowFr, rowTo, fixColumn, columnFr, columnTo, fixRow, itemNumber, releaseDate, ws) #001
     if(cordinate.getRow() != 0 and cordinate.getCol() != 0) : #001
         print('Write Cordinate!! : %d %d' % (cordinate.getRow(), cordinate.getCol())) #001
         print('Write Cordinate of OrderCount : %d' % orderCount) #001
-        #ws.cell(cordinate.getRow(), cordinate.getCol(), orderCount) #002
 
-        # D-1 ReleaseData 파일 열기 START #004
-        # pastWb = load_workbook(pastfilePath)
-        # pastWs = pastWb.active
-
+        #004 START
         if(ws.cell(cordinate.getRow(), cordinate.getCol()).value == '' or
                 ws.cell(cordinate.getRow(), cordinate.getCol()).value == None):
             ws.cell(cordinate.getRow(), cordinate.getCol(), orderCount)
@@ -96,18 +60,8 @@ def startWriteCell(filePath, rowFr, rowTo, fixColumn, columnFr, columnTo, fixRow
             tempValue = ws.cell(cordinate.getRow(), cordinate.getCol()).value
             print('더한 데이터 : %d' %tempValue)
             ws.cell(cordinate.getRow(), cordinate.getCol(), tempValue + orderCount)
+        #005 END
 
-        # if (pastWs.cell(cordinate.getRow(), cordinate.getCol() + 1).value == None):
-        #     ws.cell(cordinate.getRow(), cordinate.getCol(), orderCount)  # 002
-        # else:
-        #     testvalue1 = pastWs.cell(cordinate.getRow(), cordinate.getCol() + 1).value + orderCount
-        #     print('더한 데이터 : %d' % testvalue1)
-        #     ws.cell(cordinate.getRow(), cordinate.getCol(),
-        #             orderCount + pastWs.cell(cordinate.getRow(), cordinate.getCol() + 1).value)
-
-        # pastWb.close()
-
-        # D-1 ReleaseData 파일 열기 END
 
     elif(cordinate.getRow() == 0 and cordinate.getCol() == 0) : #003
         print('Write Failed 데이터 엑셀 기록')
