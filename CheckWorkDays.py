@@ -2,7 +2,7 @@
 # 개요 : input으로 날짜를 받아와서 그 날짜가 공휴일에도 속하지 않고, 주말에도 속하지 않으면 해당 날짜를 그대로 반환.
 #       그 날짜가 둘 중 하나라도 속하면 날짜를 바꿔 바꾼 날짜를 반환
 #       이 함수에서 납기일-1 로직도 수행
-# # 수정 : 2022.02.27 김재민 : 특근일 체크 로직 추가 #001
+# 수정 : 2022.02.27 김재민 : 특근일 체크 로직 추가 #001
 import datetime
 
 import pandas as pd
@@ -13,10 +13,11 @@ import numpy as np
 def checkHolidays(fullDate):     #fullDate는 yyyy/mm/dd형태
 
     # 변수선언 START
+    todayDate = datetime.datetime.now().strftime('%Y%m%d')
     holidayList = []
     workdayList = []
     exitFlag = False
-    filePath = 'C:/Users/KJM/Desktop/DSVAN20220214/' # 추후 holiday.xlsx 를 DSVAN20220214 상위폴더로 이동
+    filePath = 'C:/Users/KJM/Desktop/DSVAN' + todayDate + '/' # 추후 holiday.xlsx 를 DSVAN20220214 상위폴더로 이동
     fileNameHoliday = 'holiday.xlsx'
     fileNameWorkday = 'workday.xlsx'
     # 변수선언 END

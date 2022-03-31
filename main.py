@@ -22,13 +22,17 @@ from openpyxl import load_workbook
 from tkinter import *
 import PresentDataProcessing
 # RPA에서 수행해야 할 내용
-# 1. 각 폴더 생성(DSVAN+todayDate, FailedData, 수행예정데이터, 완료데이터)
+# 1. 각 폴더 생성(DSVAN+todayDate, FailedData, 수행예정데이터, 완료데이터), holiday.xlsx, workday.xlsx 복사
 # 2. 확장자 변경(xls -> xlsx) 후 .xls 파일 삭제
 # 3. d-1일자의 doosanReleasePlan+d-1Date 를 d+day 폴더에 복붙하고 todayDate로 이름 변경
 
 
 # 필요로직
-# - 없음
+# 1. 현재 엑셀 데이터를 합칠때 첫번째 열의 데이터가 안합쳐짐
+# - 원인 : 수행예정데이터와 d-day의 releaseData 엑셀 표에서 데이터가 있는 값만 null 체크 후 더해서 가져오기 때문에
+# 첫번째 열은 못가져옴. 첫번째 열만 따로 처리 가능한 로직이 필요
+# 첫번째 열 뿐만 아니라 모든 열을 -1 만큼 옮긴 다음 옮기기 전 데이터를 지워야함.
+# - 원인 : 중복체크만 이루어짐
 
 # GUI 생성 START
 # root = Tk()
@@ -115,7 +119,7 @@ if(todayDate[4:9] == '0101') :
 
 # 오늘 날짜 추출 START
 print('수행날짜 : %s' %todayDate)
-#todayDate = '20220214' #TestCode
+#todayDate = '20220330' #TestCode
 # 오늘 날짜 추출 END
 
 # D-1 날짜 추출 START
@@ -138,7 +142,8 @@ wbFailedListExcel = load_workbook(path + '/FailedData/' + failedFileName)
 # 실패한 데이터를 담을 excel 파일 만들기 END
 
 # 출고계획 엑셀 파일 set 함수 호출 START
-setExcel.setStartPlanFile(path+'/'+'doosanReleasePlan'+todayDate+'.xlsx', todayDate, defaultPath)
+#setExcel.setStartPlanFile(path+'/'+'doosanReleasePlan'+todayDate+'.xlsx', todayDate, defaultPath) 수정필요
+setExcel.setStartPlanFile('C:/Users/KJM/Desktop/ReleasePlan.xlsx', todayDate, oneDaysAgoDate ,defaultPath) #TestCode
 #setExcel.setStartPlanFile(path+'/'+'doosanReleasePlan20220118.xlsx') #TestCode
 # 출고계획 엑셀 파일 set 함수 호출 END
 print(file_list)
@@ -196,6 +201,6 @@ for fileName in file_list :
 # workbook, worksheet 저장
 wbFailedListExcel.save(path + '/FailedData/' + failedFileName)
 wbFailedListExcel.close()
-#pastWb.save(defaultPath+oneDaysAgoDate+'/완료데이터/ReleasePlan.xlsx')
+pastWb.save(defaultPath+oneDaysAgoDate+'/완료데이터/ReleasePlan.xlsx')
 pastWb.close()
 print('코드 수행 시간 :', time.time() - startTime)

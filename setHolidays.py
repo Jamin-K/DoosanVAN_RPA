@@ -2,11 +2,13 @@
 # 개요 : 공공API로부터 공휴일 데이터를 받아와 엑셀에 저장
 #     : year, year+1을 받아서 엑셀에 연달아 데이터를 작성해야함
 # 향후 개발 방향 : year를 StartSetHoliday()인수로 넣음.
+# 수정 : 2022.03.29 김재민 : holiday.xlsx 파일에 주말 리스트도 같이 넣음 #001
 
 import requests
 import datetime
 from bs4 import BeautifulSoup
 from openpyxl import load_workbook
+import pandas as pd
 
 # 변수선언 START
 mykey = 'McQ4cSLtaKSUaWUqWP9ogxYIkoakYViOMDeXF4m5TMETSh%2BuxDgHZNasTqWmH5PNOxgRtlumXp9%2BtLqZvu4vsw%3D%3D'
@@ -67,5 +69,32 @@ def startSetHoliday(year) :
                 ws.cell(row=rowIndex, column=3, value=i.locdate.string)
                 ws.cell(row=rowIndex, column=4, value=weekname)
                 rowIndex = rowIndex + 1
+
+        # 001 START
+        todayDateYear = todayDate[0:5]
+        startDate = todayDateYear+'0101'
+        fulldt = datetime.datetime.strptime(startDate, '%Y%m%d')
+        count = 0
+        dataframe = pd.DataFrame(columns={'비고', 'check', '날짜', '요일'})
+
+        while(count < 732) :
+            fulldt = fulldt + datetime.timedelta(days=count)
+            if(fulldt.weekday() == 5):
+                dataframe = pd.DataFrame(data=[['토요일',datetime.datetime.strptime(fulldt, '%Y%m%d'), 'Y', '토요일']], columns=['비고', 'check', '날짜', '요일'])
+
+            if(fulldt.weekday() == 6):
+                dataframe = pd.DataFrame(data=[['일요일',datetime.datetime.strptime(fulldt, '%Y%m%d'), 'Y', '일요일']], columns=['비고', 'check', '날짜', '요일'])
+
+
+            count = count + 1
+
+
+
+            # dataframe에 write
+
+        # 001 END
+
+
+
         wb.save(holidayFileName)
         wb.close()
