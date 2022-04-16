@@ -10,10 +10,10 @@ import datetime as dt
 import numpy as np
 
 
-def checkHolidays(fullDate):     #fullDate는 yyyy/mm/dd형태
+def checkHolidays(fullDate, todayDate):     #fullDate는 yyyy/mm/dd형태
 
     # 변수선언 START
-    todayDate = datetime.datetime.now().strftime('%Y%m%d')
+    #todayDate = datetime.datetime.now().strftime('%Y%m%d')
     holidayList = []
     workdayList = []
     exitFlag = False

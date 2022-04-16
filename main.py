@@ -28,7 +28,7 @@ import PresentDataProcessing
 
 
 # 필요로직
-# 1. 실패데이터에 대한 중복 체크 필요.(발주항번과 발주번호를 기준으로)
+# 1. 실패데이터에 대한 중복 체크 필요.(발주항번과 발주번호를 기준으로) -> 중복체크 로직 구현 및 테스트완료
 
 # GUI 생성 START
 # root = Tk()
@@ -115,7 +115,7 @@ if(todayDate[4:9] == '0101') :
 
 # 오늘 날짜 추출 START
 print('수행날짜 : %s' %todayDate)
-#todayDate = '20220330' #TestCode
+todayDate = '20220401' #TestCode
 # 오늘 날짜 추출 END
 
 # D-1 날짜 추출 START

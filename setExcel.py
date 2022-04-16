@@ -33,6 +33,7 @@ def setStartPlanFile(planFilePath, todayDate, oneDaysAgoDate,defaultPath) :
     # 001 END
 
     # 002 START
+    # 예외처리 필요. 하루 전 데이터가 없으면
     pastWb = load_workbook(defaultPath + oneDaysAgoDate + '/완료데이터/ReleasePlan.xlsx')
     pastWs = pastWb.active
 

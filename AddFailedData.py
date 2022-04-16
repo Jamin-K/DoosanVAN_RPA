@@ -1,5 +1,7 @@
 # 신규생성 : 2022.03.03 김재민
 # 개요 : 전날에 실패한 엑셀 데이터와 현재 수행할 데이터를 합치는 로직
+# 수정 : 2022.04.16 김재민 : 실패데이터 중복 체크 후 중복 제거 로직 추가 #001
+#       2022.04.16 김재민 : D-1 실패데이터 엑셀 파일이 없을 경우 방어로직 추가 #002
 
 from openpyxl import load_workbook
 import pandas as pd
@@ -43,28 +45,64 @@ def addFailedDataStart(path, todayFileName, todayDate) :
     # DataFrame 기본 옵션 세팅 END
 
     # 하루 전 실패 데이터를 시트 이름에 따라 DataFrame으로 가져오기 START
-    failedExcelDateFrame = pd.read_excel(faileFileName, dtype={'발주번호':str,
-                                                         '발주항번':str},
-                                   sheet_name=sheetName)
+
+    # 002 START
+    errorFlag = False
+    try:
+        failedExcelDateFrame = pd.read_excel(faileFileName, dtype={'발주번호':str,
+                                                                   '발주항번':str},
+                                             sheet_name=sheetName)
+    except:
+        print('Failed 데이터 파일 없음')
+        errorFlag = True
+        # failedExcelDateFrame = pd.DataFrame({
+        #                         '발주번호': [''],
+        #                         '발주항번': [''],
+        #                         '품명': [''],
+        #                         '날짜': [''],
+        #                         '발주수량': [''],
+        #                         'JIS': [''],
+        #                         'Category': ['']
+        #                                     })
+        # failedExcelDateFrame['발주수량'] = pd.to_numeric(failedExcelDateFrame['발주수량'])
+
+    # 001 END
+    # failedExcelDateFrame = pd.read_excel(faileFileName, dtype={'발주번호':str,
+    #                                                      '발주항번':str},
+    #                                sheet_name=sheetName)
     # 하루 전 실패 데이터를 시트 이름에 따라 DataFrame으로 가져오기 END
 
     # 실패 엑셀 파일의 해당 시트에 데이터가 존재할때만 수행 예정인 파일과 데이터 합치기 수행
-    if(failedExcelDateFrame.empty != True):
-        print('%s 시트 데이터 존재' %sheetName)
-        # 실패 데이터와 수행 예정 데이터 합치기 START
-        # presentExcelDataFrame = pd.read_excel(presentPath + '/수행예정데이터/' + sheetName + '.xlsx')
-        # presentExcelDataFrame.drop(presentExcelDataFrame.columns[0], axis=1, inplace=True) # dataframe 인덱스 행 제거
-       # presentExcelDataFrame = appendToExcel(presentPath + '/수행예정데이터/' + sheetName + '.xlsx',
-       #                                        failedExcelDateFrame, sheetName)
-        appendToExcel(presentPath + '/수행예정데이터/' + sheetName + '.xlsx', failedExcelDateFrame, sheetName)
-        print('---------------------------------------------------------------')
-        print('---------------------------------------------------------------')
 
+    if(errorFlag == False):
 
-
-        # 실패 데이터와 수행 예정 데이터 합치기 END
-    else :
+        if(failedExcelDateFrame.empty != True):
+            print('%s 시트 데이터 존재' % sheetName)
+            appendToExcel(presentPath + '/수행예정데이터/' + sheetName + '.xlsx', failedExcelDateFrame, sheetName)
+    else:
         print('데이터 합치기 skip!!')
+
+    print('---------------------------------------------------------------')
+
+    # 002 END
+
+    # if(failedExcelDateFrame.empty != True):
+    # if(errorFlag == False and failedExcelDateFrame.empty != True): #조건문 쪼개기
+    #     print('%s 시트 데이터 존재' %sheetName)
+    #     # 실패 데이터와 수행 예정 데이터 합치기 START
+    #     # presentExcelDataFrame = pd.read_excel(presentPath + '/수행예정데이터/' + sheetName + '.xlsx')
+    #     # presentExcelDataFrame.drop(presentExcelDataFrame.columns[0], axis=1, inplace=True) # dataframe 인덱스 행 제거
+    #    # presentExcelDataFrame = appendToExcel(presentPath + '/수행예정데이터/' + sheetName + '.xlsx',
+    #    #                                        failedExcelDateFrame, sheetName)
+    #     appendToExcel(presentPath + '/수행예정데이터/' + sheetName + '.xlsx', failedExcelDateFrame, sheetName)
+    #     print('---------------------------------------------------------------')
+    #     print('---------------------------------------------------------------')
+    #
+    #
+    #
+    #     # 실패 데이터와 수행 예정 데이터 합치기 END
+    # else :
+    #     print('데이터 합치기 skip!!')
 
     print('-----------------------------------------------------')
 
@@ -120,6 +158,8 @@ def appendToExcel(path, df, sheetName):
     # 데이터프레임 합치기 END
 
     # 합친 파일 수행예정데이터 폴더에 작성 START
+    addDataFrame = addDataFrame.drop_duplicates(subset=['발주번호', '발주항번'], inplace=False) #001
+    addDataFrame.dropna(axis=0)
     addDataFrame.to_excel(path, header=True)
     # 합친 파일 수행예정데이터 폴더에 작성 END
 
