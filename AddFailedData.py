@@ -1,7 +1,6 @@
 # 신규생성 : 2022.03.03 김재민
 # 개요 : 전날에 실패한 엑셀 데이터와 현재 수행할 데이터를 합치는 로직
 # 수정 : 2022.04.16 김재민 : 실패데이터 중복 체크 후 중복 제거 로직 추가 #001
-#       2022.04.16 김재민 : D-1 실패데이터 엑셀 파일이 없을 경우 방어로직 추가 #002
 
 from openpyxl import load_workbook
 import pandas as pd
@@ -83,26 +82,6 @@ def addFailedDataStart(path, todayFileName, todayDate) :
         print('데이터 합치기 skip!!')
 
     print('---------------------------------------------------------------')
-
-    # 002 END
-
-    # if(failedExcelDateFrame.empty != True):
-    # if(errorFlag == False and failedExcelDateFrame.empty != True): #조건문 쪼개기
-    #     print('%s 시트 데이터 존재' %sheetName)
-    #     # 실패 데이터와 수행 예정 데이터 합치기 START
-    #     # presentExcelDataFrame = pd.read_excel(presentPath + '/수행예정데이터/' + sheetName + '.xlsx')
-    #     # presentExcelDataFrame.drop(presentExcelDataFrame.columns[0], axis=1, inplace=True) # dataframe 인덱스 행 제거
-    #    # presentExcelDataFrame = appendToExcel(presentPath + '/수행예정데이터/' + sheetName + '.xlsx',
-    #    #                                        failedExcelDateFrame, sheetName)
-    #     appendToExcel(presentPath + '/수행예정데이터/' + sheetName + '.xlsx', failedExcelDateFrame, sheetName)
-    #     print('---------------------------------------------------------------')
-    #     print('---------------------------------------------------------------')
-    #
-    #
-    #
-    #     # 실패 데이터와 수행 예정 데이터 합치기 END
-    # else :
-    #     print('데이터 합치기 skip!!')
 
     print('-----------------------------------------------------')
 

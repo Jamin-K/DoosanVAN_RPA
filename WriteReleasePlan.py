@@ -5,7 +5,7 @@
 #       2022.02.19 김재민 : 얻은 좌표에 Write OrderCount 및 엑셀 저장 #002
 #       2022.03.02 김재민 : ReleasePlan에 쓰기 실패한 데이터 리스트 기록 in writeFaieldlist.xlsx #003
 #       2022.03.31 김재민 : D-1 완료 데이터와 합쳐서 D-day ReleasePlan에 작성 #004
-#       2022.04.07 김재민 : 실패데이터 중복체크 로직 추가(D-1 Failed Data와 비교)#005
+
 
 
 
@@ -61,7 +61,7 @@ def startWriteCell(filePath, rowFr, rowTo, fixColumn, columnFr, columnTo, fixRow
             tempValue = ws.cell(cordinate.getRow(), cordinate.getCol()).value
             print('더한 데이터 : %d' %tempValue)
             ws.cell(cordinate.getRow(), cordinate.getCol(), tempValue + orderCount)
-        #005 END
+        #004 END
 
 
     elif(cordinate.getRow() == 0 and cordinate.getCol() == 0) : #003
@@ -69,9 +69,7 @@ def startWriteCell(filePath, rowFr, rowTo, fixColumn, columnFr, columnTo, fixRow
 
         # sheetName으로 해당 시트에 기록 START
         #wsFailedListExcel = wbFailedListExcel.get_sheet_by_name('sheetName')
-        # 005 START
 
-        # 005 END
         wsFailedListExcel = wbFailedListExcel[sheetName]
         wsFailedListExcel.cell(1, 1, '발주번호')
         wsFailedListExcel.cell(1, 2, '발주항번')

@@ -56,6 +56,7 @@ def getStartData(path, fileName, wbFailedListExcel, todayDate) :
         # 004 START
         endOfRow = len(releaseWorkSheet['B'])
         gunsanRowCount = 0 # A/S 항목의 뚜렷한 식별자가 없기 때문에 그 전 발주처인 군산공장을 기준으로 계산
+        # 엑셀 시트의 B열 끝에는 아무런 데이터 추가하면 안됨
         gunsanEndRow = 0
         gunsanStartRow = 0
 
