@@ -23,7 +23,10 @@ from openpyxl import load_workbook
 from tkinter import *
 import PresentDataProcessing
 import GunsanDataPostProcessing
+import sys
 
+
+print('python version : ',str(sys.version_info.major)+'.'+str(sys.version_info.minor)+'.'+str(sys.version_info.micro))
 GunsanDataPostProcessing.Start(defaultPath = 'C:/Users/KJM/Desktop/DSVAN', todayDate='20220401')
 # RPA에서 수행해야 할 내용
 # 1. 각 폴더 생성(DSVAN+todayDate, FailedData, 수행예정데이터, 완료데이터), holiday.xlsx, workday.xlsx 복사
