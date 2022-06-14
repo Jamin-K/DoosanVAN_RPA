@@ -106,16 +106,86 @@ def Start(defaultPath, todayDate) :
     temp2Day = []
     temp3Day = []
     temp4Day = []
-    dayList = []
+    mainList = []
+    tempExtractstr = ''
     for i in range(colFr, colTo):
-        dayList.append(releaseWorkSheet.cell(4, i).value)
+        if(i==8): #Dday인 경우 수행
+            tempDDay.append(releaseWorkSheet.cell(4, i).value)
 
-    dic = {dayList[0] : tempDDay,
-           dayList[1] : temp1Day,
-           dayList[2] : temp2Day,
-           dayList[3] : temp3Day,
-           dayList[4] : temp4Day}
-    #print(dic.keys())
+            for j in range(rowFr, rowTo):
+                if(releaseWorkSheet.cell(j, i).value is None):
+                    continue
+                else:
+                    tempExtractstr = tempExtractstr + str(releaseWorkSheet.cell(j, 3).value) + '/'
+                    tempExtractstr = tempExtractstr + str(releaseWorkSheet.cell(j, i).value) + '/'
+
+            tempExtractstr = tempExtractstr[:len(tempExtractstr)-1]
+            tempDDay.append(tempExtractstr) # 해당 날짜 리스트[1] 에 문자열 추가
+            tempExtractstr = '' # 사용한 문자열 초기화
+
+        elif(i==9): #D+1 수행
+            temp1Day.append(releaseWorkSheet.cell(4, i).value)
+
+            for j in range(rowFr, rowTo):
+                if(releaseWorkSheet.cell(j, i).value is None):
+                    continue
+                else:
+                    tempExtractstr = tempExtractstr + str(releaseWorkSheet.cell(j, 3).value) + '/'
+                    tempExtractstr = tempExtractstr + str(releaseWorkSheet.cell(j, i).value) + '/'
+
+            tempExtractstr = tempExtractstr[:len(tempExtractstr)-1]
+            temp1Day.append(tempExtractstr)
+            tempExtractstr = ''
+
+        elif(i==10): #D+2 수행
+            temp2Day.append(releaseWorkSheet.cell(4, i).value)
+
+            for j in range(rowFr, rowTo):
+                if (releaseWorkSheet.cell(j, i).value is None):
+                    continue
+                else:
+                    tempExtractstr = tempExtractstr + str(releaseWorkSheet.cell(j, 3).value) + '/'
+                    tempExtractstr = tempExtractstr + str(releaseWorkSheet.cell(j, i).value) + '/'
+
+            tempExtractstr = tempExtractstr[:len(tempExtractstr) - 1]
+            temp2Day.append(tempExtractstr)
+            tempExtractstr = ''
+
+        elif(i==11): #D+3 수행
+            temp3Day.append(releaseWorkSheet.cell(4, i).value)
+
+            for j in range(rowFr, rowTo):
+                if (releaseWorkSheet.cell(j, i).value is None):
+                    continue
+                else:
+                    tempExtractstr = tempExtractstr + str(releaseWorkSheet.cell(j, 3).value) + '/'
+                    tempExtractstr = tempExtractstr + str(releaseWorkSheet.cell(j, i).value) + '/'
+
+            tempExtractstr = tempExtractstr[:len(tempExtractstr) - 1]
+            temp3Day.append(tempExtractstr)
+            tempExtractstr = ''
+
+        elif(i==12): #D+4 수행
+            temp4Day.append(releaseWorkSheet.cell(4, i).value)
+
+            for j in range(rowFr, rowTo):
+                if (releaseWorkSheet.cell(j, i).value is None):
+                    continue
+                else:
+                    tempExtractstr = tempExtractstr + str(releaseWorkSheet.cell(j, 3).value) + '/'
+                    tempExtractstr = tempExtractstr + str(releaseWorkSheet.cell(j, i).value) + '/'
+
+            tempExtractstr = tempExtractstr[:len(tempExtractstr) - 1]
+            temp4Day.append(tempExtractstr)
+            tempExtractstr = ''
+
+
+    print(tempDDay)
+    print(temp1Day)
+    print(temp2Day)
+    print(temp3Day)
+    print(temp4Day)
+
 
     for i in range(rowFr, rowTo):
         if(releaseWorkSheet.cell(i,colFr).value is None) :
@@ -153,26 +223,9 @@ def Start(defaultPath, todayDate) :
             temp4Day.append(releaseWorkSheet.cell(i, colFr+4).value)
 
 
-    for i in (0, len(dayList)):
-        if i==0:
-            dic[dayList[i]] = tempDDay
-        elif i==1:
-            dic[dayList[i]] = temp1Day
-        elif i==2:
-            dic[dayList[i]] = temp2Day
-        elif i==3:
-            dic[dayList[i]] = temp3Day
-        elif i==4:
-            dic[dayList[i]] = temp4Day
+
     # 사용 데이터 추출 END
 
-
-    print(dic.keys())
-    print(dic['04/01'])
-    print(dic['04/02'])
-    print(dic['04/03'])
-    print(dic['04/04'])
-    print(dic['04/05'])
 
 
 
