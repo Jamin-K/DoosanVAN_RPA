@@ -43,19 +43,31 @@ print('python version : ',str(sys.version_info.major)+'.'+str(sys.version_info.m
 
 startTime = time.time() # 수행시간 측정
 
+# 오늘 날짜 추출 START
 todayDate = datetime.datetime.now().strftime('%Y%m%d')
+print('수행날짜 : %s' %todayDate)
+todayDate = '20220101' #TestCode
+# 오늘 날짜 추출 END
+
+# 폴더 파일 리스트 추출 START
+defaultPath = 'C:/Users/KJM/Desktop/DSVAN'
+path = defaultPath+todayDate
+file_list = os.listdir(path)
+#print(file_list)
+# 폴더 파일 리스트 추출 END
 
 # 공휴일 및 국경일 Excel Write START
 # 01월 01일에 실행
 if(todayDate[4:9] == '0101') :
-    setHolidays.startSetHoliday(todayDate[0:4])
-    setHolidays.startSetHoliday(str(int(todayDate[0:4])+1))
+    #setHolidays.startSetHoliday(todayDate[0:4])
+    #setHolidays.startSetHoliday(str(int(todayDate[0:4])+1))
+    setHolidays.startSetHoliday(todayDate[0:4], path)
+    setHolidays.startSetHoliday(str(int(todayDate[0:4]) + 1), path)
 # 공휴일 및 국경일 Excel Write END
 
-# 오늘 날짜 추출 START
-print('수행날짜 : %s' %todayDate)
+
 todayDate = '20220401' #TestCode
-# 오늘 날짜 추출 END
+
 
 # D-1 날짜 추출 START
 tempDate = datetime.datetime.strptime(todayDate, '%Y%m%d')
@@ -64,10 +76,7 @@ oneDaysAgoDate = datetime.datetime.strftime(tempDate, '%Y%m%d')
 # D-1 날짜 추출 END
 
 # 폴더 파일 리스트 추출 START
-defaultPath = 'C:/Users/KJM/Desktop/DSVAN'
-path = defaultPath+todayDate
-file_list = os.listdir(path)
-#print(file_list)
+
 # 폴더 파일 리스트 추출 END
 
 # 실패한 데이터를 담을 excel 파일 만들기 START

@@ -34,7 +34,12 @@ def get_request_query(url, operation, params, serviceKey):
 
 # 일반 인증키(Encoding)
 
-def startSetHoliday(year) :
+def startSetHoliday(year, filePath) :
+    # input : filePath = 'C:/User/KJM/Desktop/DSVAN+todaydate'
+    tempStrIndex = filePath.find('DSVAN')
+    fileDirPath = filePath[:tempStrIndex]
+    holidayFileName = fileDirPath + 'holiday.xlsx'
+    print('holiday.xlsx 파일 경로 : ', holidayFileName)
     wb = load_workbook(holidayFileName)
     ws = wb.active
     rowIndex = ws.max_row
@@ -70,23 +75,23 @@ def startSetHoliday(year) :
                 ws.cell(row=rowIndex, column=4, value=weekname)
                 rowIndex = rowIndex + 1
 
-        # 001 START
-        todayDateYear = todayDate[0:5]
-        startDate = todayDateYear+'0101'
-        fulldt = datetime.datetime.strptime(startDate, '%Y%m%d')
-        count = 0
-        dataframe = pd.DataFrame(columns={'비고', 'check', '날짜', '요일'})
-
-        while(count < 732) :
-            fulldt = fulldt + datetime.timedelta(days=count)
-            if(fulldt.weekday() == 5):
-                dataframe = pd.DataFrame(data=[['토요일',datetime.datetime.strptime(fulldt, '%Y%m%d'), 'Y', '토요일']], columns=['비고', 'check', '날짜', '요일'])
-
-            if(fulldt.weekday() == 6):
-                dataframe = pd.DataFrame(data=[['일요일',datetime.datetime.strptime(fulldt, '%Y%m%d'), 'Y', '일요일']], columns=['비고', 'check', '날짜', '요일'])
-
-
-            count = count + 1
+        # # 001 START
+        # todayDateYear = todayDate[0:4]
+        # startDate = todayDateYear+'0101'
+        # fulldt = datetime.datetime.strptime(startDate, '%Y%m%d')
+        # count = 0
+        # dataframe = pd.DataFrame(columns={'비고', 'check', '날짜', '요일'})
+        #
+        # while(count < 732) :
+        #     fulldt = fulldt + datetime.timedelta(days=count)
+        #     if(fulldt.weekday() == 5):
+        #         dataframe = pd.DataFrame(data=[['토요일',datetime.datetime.strptime(fulldt, '%Y%m%d'), 'Y', '토요일']], columns=['비고', 'check', '날짜', '요일'])
+        #
+        #     if(fulldt.weekday() == 6):
+        #         dataframe = pd.DataFrame(data=[['일요일',datetime.datetime.strptime(fulldt, '%Y%m%d'), 'Y', '일요일']], columns=['비고', 'check', '날짜', '요일'])
+        #
+        #
+        #     count = count + 1
 
 
 
