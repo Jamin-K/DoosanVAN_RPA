@@ -1,7 +1,6 @@
 # 신규생성 : 2022.02.19 김재민
 # 개요 : 공공API로부터 공휴일 데이터를 받아와 엑셀에 저장
 #     : year, year+1을 받아서 엑셀에 연달아 데이터를 작성해야함
-# 향후 개발 방향 : year를 StartSetHoliday()인수로 넣음.
 # 수정 : 2022.03.29 김재민 : holiday.xlsx 파일에 주말 리스트도 같이 넣음 #001
 
 import requests
@@ -84,18 +83,17 @@ def startSetHoliday(year, filePath) :
         #
         # while(count < 732) :
         #     fulldt = fulldt + datetime.timedelta(days=count)
-        #     if(fulldt.weekday() == 5):
-        #         dataframe = pd.DataFrame(data=[['토요일',datetime.datetime.strptime(fulldt, '%Y%m%d'), 'Y', '토요일']], columns=['비고', 'check', '날짜', '요일'])
         #
+        #     if(fulldt.weekday() == 5):
+        #         dataframe = pd.DataFrame(data=[['토요일', 'Y', fulldt.strftime('%Y%m%d'), '토요일']], columns=['비고', 'check', '날짜', '요일'])
         #     if(fulldt.weekday() == 6):
-        #         dataframe = pd.DataFrame(data=[['일요일',datetime.datetime.strptime(fulldt, '%Y%m%d'), 'Y', '일요일']], columns=['비고', 'check', '날짜', '요일'])
+        #         dataframe = pd.DataFrame(data=[['일요일', 'Y', fulldt.strftime('%Y%m%d'), '일요일']], columns=['비고', 'check', '날짜', '요일'])
         #
         #
         #     count = count + 1
-
-
-
-            # dataframe에 write
+        #
+        #     # dataframe에 write
+        # print(dataframe)
 
         # 001 END
 
