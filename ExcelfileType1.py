@@ -6,6 +6,7 @@
 #       2022.02.04 김재민 : startWriteCell() 함수 호출을 위한 변수선언 및 함수 호출 #003
 #       2022.02.13 김재민 : 데이터가 1개일떄, 2개일때 함수 call 로직 추가
 #       2022.03.24 김재민 : 납품처 탐색 범위 하드코딩에서 다이나믹으로 변경 #004
+#       2022.07.06 김재민 : 1000INCHEON 파일 수행안함. 1130DirINCHEON 파일 수행 #005
 
 import datetime
 import pandas as pd
@@ -55,9 +56,36 @@ def getStartData(path, fileName, wbFailedListExcel, todayDate) :
     releaseWorkBook = load_workbook(fileDirPath + 'doosanReleasePlan' + todayDate + '.xlsx')
     releaseWorkSheet = releaseWorkBook.active
 
-    if '1000INCHEON' in fileName :
-        print('1000INCHEON 파일 시작')
-        excelDataFrame = pd.read_excel(fileDirPath + '/수행예정데이터/1000INCHEON.xlsx',
+    # if '1000INCHEON' in fileName : #005
+    #     print('1000INCHEON 파일 시작')
+    #     excelDataFrame = pd.read_excel(fileDirPath + '/수행예정데이터/1000INCHEON.xlsx',
+    #                                    dtype={'발주번호': str,
+    #                                           '발주항번': str})
+    #
+    #     # 004 START
+    #     endOfRow = len(releaseWorkSheet['B'])
+    #     startRow = 0
+    #     rowCount = 0
+    #
+    #     for i in range(1, endOfRow) :
+    #         if(releaseWorkSheet.cell(i, 2).value == '인천공장' and startRow == 0) :
+    #             startRow = i
+    #             continue
+    #
+    #         if(releaseWorkSheet.cell(i, 2).value == '인천공장' and startRow != 0) :
+    #             rowCount = rowCount + 1
+    #             continue
+    #         i = i + 1
+    #
+    #     rowFr = startRow
+    #     rowTo = startRow + rowCount + 1
+    #     # 004 END
+    #
+    #     excelDataFrame.drop(excelDataFrame.columns[0], axis=1, inplace=True)
+
+    if '1130DirINCHEON' in fileName : #005
+        print('1130DirINCHEON 파일 시작')
+        excelDataFrame = pd.read_excel(fileDirPath + '/수행예정데이터/1130DirINCHEON.xlsx',
                                        dtype={'발주번호': str,
                                               '발주항번': str})
 
@@ -66,12 +94,12 @@ def getStartData(path, fileName, wbFailedListExcel, todayDate) :
         startRow = 0
         rowCount = 0
 
-        for i in range(1, endOfRow) :
-            if(releaseWorkSheet.cell(i, 2).value == '인천공장' and startRow == 0) :
+        for i in range(1, endOfRow) : #세진크랑크
+            if(releaseWorkSheet.cell(i, 2).value == '세진크랑크' and startRow == 0) :
                 startRow = i
                 continue
 
-            if(releaseWorkSheet.cell(i, 2).value == '인천공장' and startRow != 0) :
+            if(releaseWorkSheet.cell(i, 2).value == '세진크랑크' and startRow != 0) :
                 rowCount = rowCount + 1
                 continue
             i = i + 1

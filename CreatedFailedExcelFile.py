@@ -1,5 +1,7 @@
 # 신규생성 : 2022.03.03 김재민
 # 개요 : 실패 데이터를 담는 엑셀 파일생성, 1000JISINCHEON, 6000GUNSAN 등의 파일 이름 시트를 가짐
+# 수정 : 2022.07.06 김재민 : 1000INCHEON 파일 수행안함. 1130DirINCHEON 파일 수행 #001
+
 
 import openpyxl
 
@@ -9,7 +11,8 @@ def start(path, fileName) :
 
     # 시트생성 START
     wb.active.title = '1000DirINCHEON'
-    wb.create_sheet('1000INCHEON')
+    #wb.create_sheet('1000INCHEON') #001
+    wb.create_sheet('1130DirINCHEON') #001
     wb.create_sheet('1100CKD')
     wb.create_sheet('1130INCHEON')
     wb.create_sheet('6000ANSAN')

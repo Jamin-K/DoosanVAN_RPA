@@ -1,6 +1,7 @@
 # 신규생성 : 2022.03.03 김재민
 # 개요 : 전날에 실패한 엑셀 데이터와 현재 수행할 데이터를 합치는 로직
 # 수정 : 2022.04.16 김재민 : 실패데이터 중복 체크 후 중복 제거 로직 추가 #001
+#       2022.07.06 김재민 : 1000INCHEON 파일 수행안함. 1130DirINCHEON 파일 수행 #002
 
 from openpyxl import load_workbook
 import pandas as pd
@@ -98,7 +99,7 @@ def appendToExcel(path, df, sheetName):
     print('appendToExcel function call!!')
 
     # 시트이름에 따라 필요없는 컬럼 Drop 하고 열 순서 변경하는 로직 START
-    if(sheetName == '1000DirINCHEON' or sheetName == '1100CKD' or sheetName == '1130INCHEON' or sheetName == '1000INCHEON') :
+    if(sheetName == '1000DirINCHEON' or sheetName == '1100CKD' or sheetName == '1130INCHEON' or sheetName == '1130DirINCHEON') : #002
         df.rename(columns={'품명' : '품번',
                            '발주수량' : '납품잔량',
                            '날짜' : '납기일자'}, inplace=True)

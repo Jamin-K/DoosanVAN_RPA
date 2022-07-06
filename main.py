@@ -1,6 +1,7 @@
 # 신규생성 : 2022.01.31 김재민
 # 개요 : 두산 VAN 데이터 추출 파이썬 스크립트
 # 수정사항 : 2022.05.29 김재민 : 납품처가 군산공장인 경우 10개씨 묶어서 보내는 함수 호출 추기 #001
+#           2022.07.06 김재민 : 1000INCHEON 파일 수행안함. 1130DirINCHEON 파일 수행 #002
 
 # 개발 메모
 # 1000INCHEON 직송 -> 한양정밀
@@ -25,6 +26,8 @@ import sys
 
 
 print('python version : ',str(sys.version_info.major)+'.'+str(sys.version_info.minor)+'.'+str(sys.version_info.micro))
+print(sys.executable)
+print('\n'.join(sys.modules.keys()))
 # GunsanDataPostProcessing.Start(defaultPath = 'C:/Users/KJM/Desktop/DSVAN', todayDate='20220401')
 
 # RPA에서 수행해야 할 내용
@@ -37,16 +40,16 @@ print('python version : ',str(sys.version_info.major)+'.'+str(sys.version_info.m
 # 1. 실패데이터에 대한 중복 체크 필요.(발주항번과 발주번호를 기준으로) -> 중복체크 로직 구현 및 테스트완료
 
 # exe 실행 명령어 pyinstaller -F main.py
-
-
-
-
+#
+#
+#
+#
 startTime = time.time() # 수행시간 측정
 
 # 오늘 날짜 추출 START
 todayDate = datetime.datetime.now().strftime('%Y%m%d')
 print('수행날짜 : %s' %todayDate)
-todayDate = '20220101' #TestCode
+todayDate = '20220401' #TestCode
 # 오늘 날짜 추출 END
 
 # 폴더 파일 리스트 추출 START
@@ -102,7 +105,7 @@ for fileName in file_list :
         AddFailedData.addFailedDataStart(path, fileName, todayDate)
         ExcelfileType1.getStartData(path, fileName, wbFailedListExcel, todayDate)
 
-    elif '1000INCHEON'+todayDate in fileName :
+    elif '1130DirINCHEON'+todayDate in fileName :
         PresentDataProcessing.startProcessing(fileName, path)
         AddFailedData.addFailedDataStart(path, fileName, todayDate)
         ExcelfileType1.getStartData(path, fileName, wbFailedListExcel, todayDate)

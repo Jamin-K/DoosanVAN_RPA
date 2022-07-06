@@ -10,7 +10,10 @@ import shutil
 def setStartPlanFile(planFilePath, todayDate, oneDaysAgoDate,defaultPath) :
     # input - defaultPath : 'C:/Users/KJM/Desktop/DSVAN'
 
-    shutil.copyfile(planFilePath, defaultPath+todayDate+'/doosanReleasePlan' + todayDate + '.xlsx')
+    try:
+        shutil.copyfile(planFilePath, defaultPath + todayDate + '/doosanReleasePlan' + todayDate + '.xlsx')
+    except shutil.SameFileError:
+        pass
 
     print('SetExcel START!!')
     # today -2 ~ today + 32 날짜 세팅 START
